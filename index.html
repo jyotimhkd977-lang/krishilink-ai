@@ -1,0 +1,1890 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KrishiLink AI — Farmer Agricultural Marketplace & Decision Support</title>
+  <meta name="description" content="KrishiLink AI connects Indian farmers and FPOs directly with bulk buyers, food processors, and retailers through AI-driven price intelligence and smart logistics.">
+  
+  <!-- Google Fonts: Outfit & Plus Jakarta Sans + Devanagari & Oriya -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;600;700&family=Noto+Sans+Oriya:wght@400;600;700&display=swap" rel="stylesheet">
+  
+  <!-- CSS Stylesheets -->
+  <link rel="stylesheet" href="css/design-system.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="stylesheet" href="css/modals.css">
+  <link rel="stylesheet" href="css/landing-auth.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+<!-- ==========================================================================
+     WELCOME & LANDING PAGE PORTAL
+     ========================================================================== -->
+<div id="view-landing" class="landing-wrapper active">
+  <!-- Landing Navigation -->
+  <nav class="landing-nav">
+    <a href="#" class="landing-brand">
+      <div class="brand-icon" style="width:42px; height:42px; font-size:1.3rem;">🌾</div>
+      <div>
+        <h2>KrishiLink AI</h2>
+        <span class="brand-tagline" data-i18n="brand_tagline" style="font-size:0.72rem;">From Farm to Market, Powered by AI</span>
+      </div>
+    </a>
+
+    <div class="landing-nav-links">
+      <a href="#features">AI Features</a>
+      <a href="#impact">Platform Impact</a>
+      <a href="#how-it-works">How It Works</a>
+      <a href="#trust">Farmer Trust</a>
+    </div>
+
+    <div class="landing-nav-actions">
+      <!-- Language Selector -->
+      <div class="lang-buttons-pill">
+        <button class="lang-btn active" data-lang="en">EN</button>
+        <button class="lang-btn" data-lang="hi">हिन्दी</button>
+        <button class="lang-btn" data-lang="or">ଓଡ଼ିଆ</button>
+      </div>
+
+      <button class="btn btn-primary btn-sm" onclick="window.KrishiAuth.openAuthModal('farmer')" data-i18n="btn_signin">
+        Sign In / Register
+      </button>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <header class="landing-hero">
+    <div class="hero-pill-badge">
+      <span>✨</span>
+      <span>India's 1st AI-Powered Direct Agricultural Marketplace</span>
+    </div>
+
+    <h1 data-i18n="landing_hero_h1">
+      Direct from Indian Soil to Your Table, <span class="highlight-gold">Powered by AI</span>
+    </h1>
+
+    <p class="hero-subtitle" data-i18n="landing_hero_sub">
+      Empowering Indian farmers with fair prices, AI quality grading, and direct market access for consumers and institutional buyers.
+    </p>
+
+    <!-- Dual Portal Choice Cards -->
+    <div class="portal-choice-grid">
+      <!-- Farmer & FPO Portal Card -->
+      <div class="portal-card farmer-portal">
+        <div>
+          <span class="portal-card-badge badge-farmer">🌾 For Farmers & FPOs</span>
+          <h3>Sell Harvest at AI Guaranteed Rates</h3>
+          <p>Eliminate middlemen. Get predictive price intelligence, verified institutional buyers, and guaranteed same-day bank settlements.</p>
+
+          <div class="portal-perks-list">
+            <div class="portal-perk-item">
+              <span class="icon">✓</span>
+              <span>AI Computer Vision Quality Scanning (Grade A certified)</span>
+            </div>
+            <div class="portal-perk-item">
+              <span class="icon">✓</span>
+              <span>Direct Doorstep Farm Pickup Logistics with 18% fuel savings</span>
+            </div>
+            <div class="portal-perk-item">
+              <span class="icon">✓</span>
+              <span>Instant Escrow Payouts via UPI & Direct DBT</span>
+            </div>
+          </div>
+        </div>
+
+        <button class="btn btn-primary btn-lg" id="btn-portal-farmer" style="width: 100%; justify-content: center;" data-i18n="landing_farmer_portal_btn">
+          Enter as Farmer / FPO →
+        </button>
+      </div>
+
+      <!-- Consumer & Bulk Buyer Portal Card -->
+      <div class="portal-card consumer-portal">
+        <div>
+          <span class="portal-card-badge badge-consumer">🛒 For Consumers & Buyers</span>
+          <h3>Procure Grade A Farm Fresh Produce</h3>
+          <p>Direct farm-to-table traceability. 0% broker commissions, verified Grade A quality, and transparent mandi comparison pricing.</p>
+
+          <div class="portal-perks-list">
+            <div class="portal-perk-item">
+              <span class="icon">✓</span>
+              <span>Direct Pluck-to-Delivery Farm Traceability</span>
+            </div>
+            <div class="portal-perk-item">
+              <span class="icon">✓</span>
+              <span>Fair Wholesale Pricing for Retailers, Hotels & Homes</span>
+            </div>
+            <div class="portal-perk-item">
+              <span class="icon">✓</span>
+              <span>Consolidated Multi-Farm Morning Delivery</span>
+            </div>
+          </div>
+        </div>
+
+        <button class="btn btn-accent btn-lg" id="btn-portal-consumer" style="width: 100%; justify-content: center;" data-i18n="landing_consumer_portal_btn">
+          Enter as Consumer / Buyer →
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Live Impact Metrics Strip -->
+  <section class="impact-metrics-section" id="impact">
+    <div class="impact-metrics-grid">
+      <div class="impact-stat-item">
+        <h3>15,200+</h3>
+        <p>Active Registered Farmers</p>
+      </div>
+      <div class="impact-stat-item">
+        <h3>₹18.4 Cr</h3>
+        <p>Direct Farmer Bank Earnings</p>
+      </div>
+      <div class="impact-stat-item">
+        <h3>98.6%</h3>
+        <p>On-Time Farm Gate Pickups</p>
+      </div>
+      <div class="impact-stat-item">
+        <h3>4 States</h3>
+        <p>Odisha, AP, WB, & Bihar</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Key Pillars Section -->
+  <section style="max-width: 1200px; margin: 60px auto; padding: 0 32px;" id="features">
+    <div style="text-align: center; margin-bottom: 40px;">
+      <span class="pill pill-green" style="margin-bottom: 10px;">Why KrishiLink AI</span>
+      <h2 style="font-size: 2.2rem; font-weight: 800; color: var(--green-900);">Built Specifically for Rural India</h2>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px;">
+      <div class="card">
+        <div style="width: 52px; height: 52px; border-radius: var(--radius-pill); background: #E8F7EE; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; margin-bottom: 16px;">🤖</div>
+        <h4 style="font-size: 1.15rem; font-weight: 800; color: var(--green-900); margin-bottom: 8px;">AI Price Intelligence</h4>
+        <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.5;">Forecasts regional demand spikes 7 days in advance so farmers sell at peak profit.</p>
+      </div>
+
+      <div class="card">
+        <div style="width: 52px; height: 52px; border-radius: var(--radius-pill); background: #FEF3C7; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; margin-bottom: 16px;">📷</div>
+        <h4 style="font-size: 1.15rem; font-weight: 800; color: var(--green-900); margin-bottom: 8px;">Computer Vision Grading</h4>
+        <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.5;">Instant photo inspection calculates Grade A, brix sweetness, and zero dispute risk.</p>
+      </div>
+
+      <div class="card">
+        <div style="width: 52px; height: 52px; border-radius: var(--radius-pill); background: #E0F2FE; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; margin-bottom: 16px;">🚚</div>
+        <h4 style="font-size: 1.15rem; font-weight: 800; color: var(--green-900); margin-bottom: 8px;">Consolidated Logistics</h4>
+        <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.5;">Multi-farm smart route consolidation cuts transport costs by 18%.</p>
+      </div>
+
+      <div class="card">
+        <div style="width: 52px; height: 52px; border-radius: var(--radius-pill); background: #FCE7F3; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; margin-bottom: 16px;">🛡️</div>
+        <h4 style="font-size: 1.15rem; font-weight: 800; color: var(--green-900); margin-bottom: 8px;">Guaranteed Escrow</h4>
+        <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.5;">Buyer funds locked in escrow before vehicle arrives; instant DBT payout to farmer.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Landing Footer -->
+  <footer style="background: #F4EFE5; border-top: 1px solid var(--border-soft); padding: 40px 48px; text-align: center;">
+    <div style="display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; flex-wrap: wrap; gap: 20px;">
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <span style="font-size: 1.6rem;">🌾</span>
+        <strong style="font-size: 1.2rem; color: var(--green-900);">KrishiLink AI</strong>
+        <span style="color: var(--text-muted); font-size: 0.85rem;">• Odisha Innovation Initiative</span>
+      </div>
+      <div style="display: flex; gap: 20px; font-size: 0.9rem; font-weight: 600; color: var(--text-secondary);">
+        <a href="#features" style="color: inherit; text-decoration: none;">Features</a>
+        <a href="#impact" style="color: inherit; text-decoration: none;">Impact</a>
+        <a href="#trust" style="color: inherit; text-decoration: none;">Farmer Charter</a>
+        <a href="#support" style="color: inherit; text-decoration: none;">Toll-Free 1800-KRISHI</a>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<!-- ==========================================================================
+     CONSUMER & BULK BUYER MARKETPLACE PORTAL
+     ========================================================================== -->
+<div id="view-consumer-portal" style="display:none; width: 100%; min-height: 100vh; background-color: var(--bg-app);">
+  <!-- Consumer Navigation -->
+  <header class="topbar">
+    <div style="display: flex; align-items: center; gap: 16px;">
+      <div class="brand-icon" style="width: 44px; height: 44px; font-size: 1.3rem;">🛒</div>
+      <div>
+        <h2 style="font-size: 1.3rem; font-weight: 800; color: var(--green-900);">KrishiLink Direct • Consumer Store</h2>
+        <span class="text-caption">Procure direct from verified Odisha farms • 0% middlemen</span>
+      </div>
+    </div>
+
+    <div class="topbar-actions">
+      <button class="btn btn-secondary btn-sm btn-switch-portal">
+        <span>👨‍🌾</span>
+        <span data-i18n="btn_switch_to_farmer">Switch to Farmer Portal</span>
+      </button>
+
+      <button class="btn btn-primary btn-sm" id="btn-open-cart">
+        <span>🛒 Cart</span>
+        <span class="badge-count" id="consumer-cart-count" style="background:#E9B949; color:#0B2319; padding:2px 8px; border-radius:9999px; font-weight:bold;">1</span>
+      </button>
+
+      <button class="btn btn-secondary btn-sm btn-auth-logout" data-i18n="btn_logout">
+        Logout
+      </button>
+    </div>
+  </header>
+
+  <div class="view-container">
+    <div class="consumer-header-banner">
+      <div>
+        <span class="pill pill-gold" style="margin-bottom: 8px;">★ 100% Traceable Farm Plucks</span>
+        <h2 style="font-size: 2rem; font-weight: 800; margin-top: 4px;">Fresh From Farm to Your Kitchen</h2>
+        <p style="color: #D8F3DC; max-width: 600px; margin-top: 6px;">
+          Grade A harvest harvested daily in Khordha & surrounding districts. Every rupee goes directly to our registered farmers.
+        </p>
+      </div>
+      <div style="text-align: right;">
+        <span class="pill pill-green">Next Morning Delivery (8 AM)</span>
+      </div>
+    </div>
+
+    <div class="section-header-flex">
+      <div>
+        <h3 style="font-size: 1.35rem; font-weight: 800; color: var(--green-900);">Today's Farm Available Harvest</h3>
+        <span class="text-caption">Inspected & AI Certified Grade A Produce</span>
+      </div>
+    </div>
+
+    <div class="consumer-produce-grid" id="consumer-produce-grid" style="margin-top: 20px;">
+      <!-- Injected via consumer.js -->
+    </div>
+  </div>
+</div>
+
+<div class="app-layout">
+  <!-- ========================================================================
+       Desktop Sidebar Navigation (Section 3)
+       ======================================================================== -->
+  <aside class="sidebar">
+    <div class="brand-wrapper">
+      <div class="brand-icon">🌾</div>
+      <div class="brand-text">
+        <h1>KrishiLink AI</h1>
+        <span class="brand-tagline" data-i18n="brand_tagline">From Farm to Market, Powered by AI</span>
+      </div>
+    </div>
+
+    <nav class="nav-section">
+      <a href="#dashboard" class="nav-link active" data-view="dashboard">
+        <span class="nav-icon">🏠</span>
+        <span data-i18n="nav_dashboard">Dashboard</span>
+      </a>
+      <a href="#my-farm" class="nav-link" data-view="my-farm">
+        <span class="nav-icon">🌱</span>
+        <span data-i18n="nav_my_farm">My Farm</span>
+      </a>
+      <a href="#my-produce" class="nav-link" data-view="my-produce">
+        <span class="nav-icon">📦</span>
+        <span data-i18n="nav_my_produce">My Produce</span>
+        <span class="badge-count">4</span>
+      </a>
+      <a href="#marketplace" class="nav-link" data-view="marketplace">
+        <span class="nav-icon">🛒</span>
+        <span data-i18n="nav_marketplace">Marketplace</span>
+      </a>
+      <a href="#earnings" class="nav-link" data-view="earnings">
+        <span class="nav-icon">💰</span>
+        <span data-i18n="nav_my_earnings">My Earnings</span>
+      </a>
+      <a href="#orders" class="nav-link" data-view="orders">
+        <span class="nav-icon">📑</span>
+        <span data-i18n="nav_orders">Orders</span>
+        <span class="badge-count">2</span>
+      </a>
+      <a href="#logistics" class="nav-link" data-view="logistics">
+        <span class="nav-icon">🚚</span>
+        <span data-i18n="nav_logistics">Logistics</span>
+      </a>
+      <a href="#price-intel" class="nav-link" data-view="price-intel">
+        <span class="nav-icon">🤖</span>
+        <span data-i18n="nav_krishi_ai">Krishi AI</span>
+      </a>
+      <a href="#buyer-matches" class="nav-link" data-view="buyer-matches">
+        <span class="nav-icon">🤝</span>
+        <span>Buyer Matches</span>
+      </a>
+      <a href="#notifications" class="nav-link" data-view="notifications">
+        <span class="nav-icon">🔔</span>
+        <span data-i18n="nav_notifications">Notifications</span>
+        <span class="badge-count">5</span>
+      </a>
+      <a href="#trust-score" class="nav-link" data-view="trust-score">
+        <span class="nav-icon">🏅</span>
+        <span>Trust Score</span>
+      </a>
+      <a href="#profile" class="nav-link" data-view="profile">
+        <span class="nav-icon">👤</span>
+        <span data-i18n="nav_profile">Profile</span>
+      </a>
+    </nav>
+
+    <!-- Sidebar Bottom Language & AI Assistant Action -->
+    <div class="sidebar-footer">
+      <div class="lang-selector-card">
+        <div class="lang-label">
+          <span>🌐</span> Language / ଭାଷା
+        </div>
+        <div class="lang-buttons-pill">
+          <button class="lang-btn active" data-lang="en">EN</button>
+          <button class="lang-btn" data-lang="hi">हिन्दी</button>
+          <button class="lang-btn" data-lang="or">ଓଡ଼ିଆ</button>
+        </div>
+      </div>
+
+      <button class="btn-sidebar-ai btn-trigger-ai">
+        <span class="ai-icon-pulse">🤖</span>
+        <span data-i18n="btn_ask_ai">Ask Krishi AI</span>
+      </button>
+
+      <div style="display:flex; gap:8px; margin-top:8px;">
+        <button class="btn btn-secondary btn-sm btn-switch-portal" style="flex:1; padding:8px 4px; font-size:0.75rem;" title="Switch to Consumer Store">
+          🛒 Consumer
+        </button>
+        <button class="btn btn-danger btn-sm btn-auth-logout" style="padding:8px 12px; font-size:0.75rem;" title="Logout">
+          🚪 Logout
+        </button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ========================================================================
+       Main Application Shell
+       ======================================================================== -->
+  <main class="main-wrapper">
+    <!-- Top Bar (Section 4 Header) -->
+    <header class="topbar">
+      <div class="topbar-farmer-info">
+        <div class="topbar-avatar-ring" id="topbar-avatar-btn">
+          <img src="assets/images/ramesh.jpg" alt="Ramesh Kumar" class="topbar-avatar">
+        </div>
+        <div>
+          <div class="topbar-greeting">
+            <h2 data-i18n="namaskar">Namaskar, Ramesh 👋</h2>
+          </div>
+          <div class="topbar-location">
+            <span>📍</span>
+            <span data-i18n="location_tag">Khordha, Odisha</span>
+            <span style="color:var(--text-muted)">• 3.5 Acres Farm</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="topbar-actions">
+        <!-- Krishi Trust Score Pill -->
+        <div class="trust-badge-pill" id="topbar-trust-badge">
+          <span class="medal-icon">🏅</span>
+          <span class="trust-score">Trust Score: 94/100</span>
+        </div>
+
+        <!-- Notification Bell -->
+        <button class="icon-btn-circle" id="topbar-notif-btn" aria-label="Notifications">
+          🔔
+          <span class="notification-dot"></span>
+        </button>
+
+        <!-- Quick Sell Produce CTA -->
+        <button class="btn btn-accent btn-sm btn-add-produce-modal">
+          <span>➕</span>
+          <span>Sell Produce</span>
+        </button>
+
+        <!-- Switch to Consumer Store Button -->
+        <button class="btn btn-secondary btn-sm btn-switch-portal">
+          <span>🛒</span>
+          <span data-i18n="btn_switch_to_consumer">Consumer Store</span>
+        </button>
+
+        <!-- Logout Button -->
+        <button class="btn btn-secondary btn-sm btn-auth-logout" title="Logout">
+          <span>🚪</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Weather & Spoilage Alert Banner (Section 20) -->
+    <div class="farm-alert-banner">
+      <div class="alert-content">
+        <div class="alert-icon-wrap">🌧️</div>
+        <div class="alert-text">
+          <h4 data-i18n="farm_alert_title">⚠️ Heavy Rain Expected in Khordha Region</h4>
+          <p data-i18n="farm_alert_desc">Rain probability 82% in next 48h. AI recommends harvesting ready tomato crop.</p>
+        </div>
+      </div>
+      <button class="btn btn-secondary btn-sm" onclick="window.KrishiApp.switchView('price-intel')" data-i18n="farm_alert_btn">
+        View Advisory
+      </button>
+    </div>
+
+    <!-- ======================================================================
+         VIEW 1: FARMER DASHBOARD (Section 4, 5, 6, 7)
+         ====================================================================== -->
+    <div class="view-container">
+      <section id="view-dashboard" class="view-section active">
+        <div class="dashboard-grid">
+          
+          <!-- Hero Banner -->
+          <div class="hero-greeting-card">
+            <div class="hero-text">
+              <span class="hero-badge-live">● AI Agricultural Engine Active</span>
+              <h1 data-i18n="greeting_hero" style="margin-top: 10px;">Good Morning, Ramesh</h1>
+              <p data-i18n="greeting_sub">Here is your agricultural market pulse and weather advisory for today.</p>
+              
+              <div class="hero-metrics-pill">
+                <div class="hero-stat-chip">
+                  <span>🌾 Active Harvest:</span> <strong>4 Crops</strong>
+                </div>
+                <div class="hero-stat-chip">
+                  <span>💰 Available Balance:</span> <strong>₹47,850</strong>
+                </div>
+                <div class="hero-stat-chip">
+                  <span>🚚 Active Pickup:</span> <strong>ETA 8:22 AM</strong>
+                </div>
+              </div>
+            </div>
+
+            <div style="text-align: right; z-index: 2;">
+              <button class="btn btn-accent btn-lg btn-add-produce-modal" style="box-shadow: 0 8px 24px rgba(233,185,73,0.4);">
+                <span>➕</span>
+                <span data-i18n="action_sell">Sell Produce</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Weather & Market Summary Row (Section 4) -->
+          <div class="top-overview-row">
+            <!-- Weather Card -->
+            <div class="weather-card">
+              <div class="weather-header">
+                <div>
+                  <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--green-900);" data-i18n="weather_title">Today's Weather</h3>
+                  <span class="text-caption">Khordha District • Live Sensor</span>
+                </div>
+                <span class="pill pill-green">Sunny</span>
+              </div>
+
+              <div class="weather-main">
+                <div class="weather-icon-large">☀️</div>
+                <div>
+                  <div class="weather-temp">31°C</div>
+                  <div class="text-caption">Feels like 34°C</div>
+                </div>
+              </div>
+
+              <div class="weather-details-grid">
+                <div class="weather-detail-item">
+                  <span>💧</span>
+                  <span><span data-i18n="humidity">Humidity</span>: <strong>72%</strong></span>
+                </div>
+                <div class="weather-detail-item">
+                  <span>🌧️</span>
+                  <span><span data-i18n="rain_prob">Rain Prob.</span>: <strong>20%</strong></span>
+                </div>
+                <div class="weather-detail-item">
+                  <span>💨</span>
+                  <span><span data-i18n="wind_speed">Wind</span>: <strong>8 km/h</strong></span>
+                </div>
+                <div class="weather-detail-item">
+                  <span>☀️</span>
+                  <span>UV Index: <strong>5 (Mod)</strong></span>
+                </div>
+              </div>
+
+              <div class="weather-advisory">
+                <span>🌱</span>
+                <span data-i18n="weather_advisory">Ideal spraying conditions today (Low wind)</span>
+              </div>
+            </div>
+
+            <!-- Market Tickers Card -->
+            <div class="market-ticker-card">
+              <div class="section-header-flex">
+                <div>
+                  <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--green-900);" data-i18n="market_summary_title">Today's Market Prices</h3>
+                  <span class="text-caption">Odisha APMC Mandis & KrishiLink Direct Spot Rates</span>
+                </div>
+                <button class="btn btn-secondary btn-sm" onclick="window.KrishiApp.switchView('price-intel')" data-i18n="view_all_prices">
+                  View Trends →
+                </button>
+              </div>
+
+              <div class="ticker-grid" id="market-tickers-grid">
+                <!-- Dynamically injected via app.js -->
+              </div>
+            </div>
+          </div>
+
+          <!-- Section 5: AI Insight Card -->
+          <div class="ai-insight-hero-card">
+            <div class="ai-card-badge">
+              <span>🤖</span>
+              <span data-i18n="ai_insight_title">Krishi AI Regional Demand Forecast</span>
+            </div>
+
+            <h3 class="ai-headline" data-i18n="ai_insight_headline">
+              Tomato demand is expected to increase by 18% in Khordha & Bhubaneswar over next 7 days.
+            </h3>
+
+            <div class="ai-gauges-grid">
+              <div class="ai-gauge-box">
+                <div class="gauge-label">
+                  <span data-i18n="metric_demand">Demand Index</span>
+                  <span style="color:var(--green-700)">High</span>
+                </div>
+                <div class="gauge-value font-num">82%</div>
+                <div class="progress-bar-wrap">
+                  <div class="progress-bar-fill" style="width: 82%;"></div>
+                </div>
+              </div>
+
+              <div class="ai-gauge-box">
+                <div class="gauge-label">
+                  <span data-i18n="metric_price_trend">Price Trend</span>
+                  <span style="color:#16A34A">Rising</span>
+                </div>
+                <div class="gauge-value font-num">74%</div>
+                <div class="progress-bar-wrap">
+                  <div class="progress-bar-fill" style="width: 74%;"></div>
+                </div>
+              </div>
+
+              <div class="ai-gauge-box">
+                <div class="gauge-label">
+                  <span data-i18n="metric_buyer_urgency">Buyer Urgency</span>
+                  <span style="color:#D97706">Very High</span>
+                </div>
+                <div class="gauge-value font-num">89%</div>
+                <div class="progress-bar-wrap">
+                  <div class="progress-bar-fill gold" style="width: 89%;"></div>
+                </div>
+              </div>
+
+              <div class="ai-gauge-box">
+                <div class="gauge-label">
+                  <span data-i18n="metric_supply">Local Supply</span>
+                  <span style="color:#DC2626">Tight</span>
+                </div>
+                <div class="gauge-value font-num">48%</div>
+                <div class="progress-bar-wrap">
+                  <div class="progress-bar-fill" style="width: 48%; background: #EF4444;"></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="ai-rec-banner">
+              <div class="ai-rec-text">
+                <span style="font-size: 1.8rem;">💡</span>
+                <div>
+                  <p data-i18n="ai_rec_headline">Consider selling 300–500 kg within the next 3–5 days to capture peak rates.</p>
+                  <span style="font-size:0.85rem; color:#92400E;">Based on festive procurement by 4 hotel chains and retail aggregators.</span>
+                </div>
+              </div>
+              <div style="text-align: right; display: flex; align-items: center; gap: 16px;">
+                <div>
+                  <span style="font-size:0.8rem; color:var(--text-muted); font-weight:600;" data-i18n="ai_potential_price_label">Expected Price:</span>
+                  <div class="ai-potential-price">₹31–₹34/kg</div>
+                </div>
+                <button class="btn btn-primary btn-sm" onclick="window.KrishiApp.switchView('price-intel')" data-i18n="btn_view_ai_rec">
+                  View Recommendation
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Section 6: Quick Actions (2x3 Large Cards) -->
+          <div>
+            <div class="section-header-flex">
+              <h3 style="font-size: 1.35rem; font-weight: 800; color: var(--green-900);">Farmer Quick Actions</h3>
+              <span class="text-caption">Common farm-to-market workflows in 1 tap</span>
+            </div>
+
+            <div class="quick-actions-grid">
+              <div class="action-card" data-action-target="sell-modal">
+                <div class="action-icon-circle icon-bg-sell">➕</div>
+                <div class="action-title" data-i18n="action_sell">Sell Produce</div>
+                <div class="action-desc" data-i18n="action_sell_desc">List crop in 4 easy taps with AI quality scan</div>
+              </div>
+
+              <div class="action-card" data-action-target="orders">
+                <div class="action-icon-circle icon-bg-orders">📦</div>
+                <div class="action-title" data-i18n="action_orders">My Orders</div>
+                <div class="action-desc" data-i18n="action_orders_desc">Track 3 active dispatches & collections</div>
+              </div>
+
+              <div class="action-card" data-action-target="earnings">
+                <div class="action-icon-circle icon-bg-earnings">💰</div>
+                <div class="action-title" data-i18n="action_earnings">Earnings</div>
+                <div class="action-desc" data-i18n="action_earnings_desc">₹47,850 available for instant withdrawal</div>
+              </div>
+
+              <div class="action-card" data-action-target="buyer-matches">
+                <div class="action-icon-circle icon-bg-buyers">🤝</div>
+                <div class="action-title" data-i18n="action_buyers">Find Buyers</div>
+                <div class="action-desc" data-i18n="action_buyers_desc">4 verified buyers waiting for your crops</div>
+              </div>
+
+              <div class="action-card" data-action-target="logistics">
+                <div class="action-icon-circle icon-bg-pickup">🚚</div>
+                <div class="action-title" data-i18n="action_pickup">Track Pickup</div>
+                <div class="action-desc" data-i18n="action_pickup_desc">Driver Raju arriving at 8:22 AM</div>
+              </div>
+
+              <div class="action-card" data-action-target="ai-modal">
+                <div class="action-icon-circle icon-bg-ai">🤖</div>
+                <div class="action-title" data-i18n="action_ask_ai">Ask Krishi AI</div>
+                <div class="action-desc" data-i18n="action_ask_ai_desc">Instant advisory on voice or chat</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Section 7: My Produce Section Preview -->
+          <div>
+            <div class="section-header-flex">
+              <div>
+                <h3 style="font-size: 1.35rem; font-weight: 800; color: var(--green-900);" data-i18n="my_produce_title">My Produce Listings</h3>
+                <span class="text-caption">Active crops listed with AI quality certification & real-time valuation</span>
+              </div>
+              <button class="btn btn-primary btn-sm btn-add-produce-modal" data-i18n="btn_add_produce">
+                + Add Produce
+              </button>
+            </div>
+
+            <div class="produce-cards-grid" id="my-produce-grid">
+              <!-- Dynamically populated via app.js -->
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           VIEW 2: MY FARM (Section 22 Details & Land Quadrants)
+           ==================================================================== -->
+      <section id="view-my-farm" class="view-section">
+        <div class="card" style="margin-bottom: 24px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+            <div>
+              <h2 style="font-size: 1.5rem; font-weight:800; color:var(--green-900);">Ramesh Kumar Farm Holdings</h2>
+              <p style="color:var(--text-secondary)">📍 Khordha District, Jatani Block, Plot #412 & #413</p>
+            </div>
+            <span class="pill pill-green">✓ GPS Geofenced & Soil Verified</span>
+          </div>
+
+          <div style="display:grid; grid-template-columns: repeat(4, 1fr); gap:16px;">
+            <div style="background:var(--bg-card-alt); padding:16px; border-radius:var(--radius-md);">
+              <span class="text-caption">Total Cultivable Area</span>
+              <div style="font-size:1.4rem; font-weight:800; color:var(--green-900); margin-top:4px;">3.5 Acres</div>
+            </div>
+            <div style="background:var(--bg-card-alt); padding:16px; border-radius:var(--radius-md);">
+              <span class="text-caption">Soil Classification</span>
+              <div style="font-size:1.4rem; font-weight:800; color:var(--green-900); margin-top:4px;">Alluvial Loam</div>
+            </div>
+            <div style="background:var(--bg-card-alt); padding:16px; border-radius:var(--radius-md);">
+              <span class="text-caption">Irrigation Facility</span>
+              <div style="font-size:1.4rem; font-weight:800; color:var(--green-900); margin-top:4px;">Canal + Drip</div>
+            </div>
+            <div style="background:var(--bg-card-alt); padding:16px; border-radius:var(--radius-md);">
+              <span class="text-caption">Active Standing Crops</span>
+              <div style="font-size:1.4rem; font-weight:800; color:var(--green-900); margin-top:4px;">4 Varietals</div>
+            </div>
+          </div>
+        </div>
+
+        <h3 style="font-size:1.25rem; font-weight:800; margin-bottom:16px;">Crop Field Distribution</h3>
+        <div style="display:grid; grid-template-columns:repeat(2, 1fr); gap:20px;">
+          <div class="card" style="display:flex; gap:16px; align-items:center;">
+            <img src="assets/images/tomato.jpg" style="width:100px; height:100px; border-radius:var(--radius-md); object-fit:cover;"/>
+            <div>
+              <span class="pill pill-gold">Quadrant A • 1.5 Acres</span>
+              <h4 style="font-size:1.15rem; font-weight:800; margin:6px 0;">Hybrid Red Tomato</h4>
+              <p style="font-size:0.85rem; color:var(--text-secondary)">Harvest Stage: 95% Ripe • Ready for harvest</p>
+            </div>
+          </div>
+
+          <div class="card" style="display:flex; gap:16px; align-items:center;">
+            <img src="assets/images/potato.jpg" style="width:100px; height:100px; border-radius:var(--radius-md); object-fit:cover;"/>
+            <div>
+              <span class="pill pill-green">Quadrant B • 1.0 Acre</span>
+              <h4 style="font-size:1.15rem; font-weight:800; margin:6px 0;">Kufri Jyoti Potato</h4>
+              <p style="font-size:0.85rem; color:var(--text-secondary)">Harvest Stage: Tuber maturity reached</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           VIEW 3: MY PRODUCE (Section 7)
+           ==================================================================== -->
+      <section id="view-my-produce" class="view-section">
+        <div class="section-header-flex">
+          <div>
+            <h2 style="font-size:1.75rem; font-weight:800; color:var(--green-900);" data-i18n="my_produce_title">My Produce Listings</h2>
+            <span class="text-caption">Manage your crop listings, track buyer offers, and trigger new AI Quality scans</span>
+          </div>
+          <button class="btn btn-primary btn-add-produce-modal" data-i18n="btn_add_produce">
+            + Add Produce
+          </button>
+        </div>
+
+        <div class="produce-cards-grid" style="margin-top:24px;">
+          <!-- Content shared from produce cards -->
+          <div class="produce-card">
+            <div class="produce-card-img-wrap">
+              <img src="assets/images/tomato.jpg" class="produce-card-img"/>
+              <span class="produce-card-grade-badge">★ Grade A</span>
+              <span class="produce-card-status-badge">● Active Listing</span>
+            </div>
+            <div class="produce-card-body">
+              <div class="produce-title-row">
+                <h4 class="produce-crop-name">Hybrid Red Tomato</h4>
+                <span class="produce-qty-tag">500 KG</span>
+              </div>
+              <div class="produce-stats-row">
+                <div class="produce-stat-col">
+                  <span>AI Grade</span>
+                  <span>92/100</span>
+                </div>
+                <div class="produce-stat-col">
+                  <span>AI Valuation</span>
+                  <span style="color:var(--green-700)">₹31–₹33/kg</span>
+                </div>
+                <div class="produce-stat-col">
+                  <span>Buyer Interest</span>
+                  <span style="color:#B45309">4 Offers</span>
+                </div>
+              </div>
+              <div class="produce-card-actions">
+                <button class="btn btn-primary btn-sm" style="flex:1" onclick="window.KrishiNegotiation.openNegotiation('ABC Foods India Ltd.', 30.00)">
+                  View Offers
+                </button>
+                <button class="btn btn-secondary btn-sm" onclick="KrishiApp.manageProduce('tomato')">
+                  Manage
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="produce-card">
+            <div class="produce-card-img-wrap">
+              <img src="assets/images/potato.jpg" class="produce-card-img"/>
+              <span class="produce-card-grade-badge">★ Grade A</span>
+              <span class="produce-card-status-badge">● Active Listing</span>
+            </div>
+            <div class="produce-card-body">
+              <div class="produce-title-row">
+                <h4 class="produce-crop-name">Kufri Jyoti Potato</h4>
+                <span class="produce-qty-tag">300 KG</span>
+              </div>
+              <div class="produce-stats-row">
+                <div class="produce-stat-col">
+                  <span>AI Grade</span>
+                  <span>90/100</span>
+                </div>
+                <div class="produce-stat-col">
+                  <span>AI Valuation</span>
+                  <span style="color:var(--green-700)">₹25–₹27/kg</span>
+                </div>
+                <div class="produce-stat-col">
+                  <span>Buyer Interest</span>
+                  <span style="color:#B45309">2 Offers</span>
+                </div>
+              </div>
+              <div class="produce-card-actions">
+                <button class="btn btn-primary btn-sm" style="flex:1" onclick="window.KrishiNegotiation.openNegotiation('FreshMart Supermarkets', 26.00)">
+                  View Offers
+                </button>
+                <button class="btn btn-secondary btn-sm" onclick="KrishiApp.manageProduce('potato')">
+                  Manage
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           VIEW 4: AI PRICE INTELLIGENCE (Section 9)
+           ==================================================================== -->
+      <section id="view-price-intel" class="view-section">
+        <div class="card" style="margin-bottom:24px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; flex-wrap:wrap; gap:12px;">
+            <div style="display:flex; align-items:center; gap:14px;">
+              <img src="assets/images/tomato.jpg" style="width:64px; height:64px; border-radius:var(--radius-pill); object-fit:cover; border:3px solid var(--green-600);"/>
+              <div>
+                <span class="pill pill-gold">AI Mandi Intelligence Engine</span>
+                <h2 style="font-size:1.75rem; font-weight:800; color:var(--green-900); margin-top:4px;">Tomato Price Intelligence</h2>
+              </div>
+            </div>
+            <div style="display:flex; gap:10px;">
+              <button class="btn btn-secondary btn-sm" onclick="window.KrishiAiAssistant.askQuestion('When should I sell my tomato?')">
+                🤖 Ask Krishi AI
+              </button>
+            </div>
+          </div>
+
+          <!-- Price comparison big numbers -->
+          <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:16px; margin-bottom:28px;">
+            <div style="background:var(--bg-card-alt); border:1px solid var(--border-soft); border-radius:var(--radius-lg); padding:20px;">
+              <span style="font-size:0.85rem; color:var(--text-muted); font-weight:600;" data-i18n="current_market_price">Current Market Price</span>
+              <div style="font-size:2rem; font-weight:800; color:var(--text-main); margin-top:4px;">₹29.00<span style="font-size:0.9rem; color:var(--text-muted)">/kg</span></div>
+              <span class="text-caption">Khordha Mandi average spot rate</span>
+            </div>
+
+            <div style="background:linear-gradient(135deg, #E8F7EE 0%, #D8F3DC 100%); border:2px solid var(--green-600); border-radius:var(--radius-lg); padding:20px;">
+              <span style="font-size:0.85rem; color:var(--green-800); font-weight:800;" data-i18n="recommended_price">KrishiLink AI Recommended</span>
+              <div style="font-size:2rem; font-weight:800; color:var(--green-900); margin-top:4px;">₹31.50<span style="font-size:0.9rem; color:var(--green-800)">/kg</span></div>
+              <span class="text-caption" style="color:var(--green-800)">+8.6% above conventional mandi broker rate</span>
+            </div>
+
+            <div style="background:var(--gold-100); border:1.5px solid var(--gold-400); border-radius:var(--radius-lg); padding:20px;">
+              <span style="font-size:0.85rem; color:#92400E; font-weight:700;" data-i18n="expected_range">Expected 7-Day Range</span>
+              <div style="font-size:2rem; font-weight:800; color:var(--green-900); margin-top:4px;">₹31–₹34<span style="font-size:0.9rem; color:var(--text-muted)">/kg</span></div>
+              <span class="text-caption" style="color:#78350F">Peak window: Sep 8 to Sep 11</span>
+            </div>
+          </div>
+
+          <!-- Animated Indicators -->
+          <h4 style="font-size:1.15rem; font-weight:800; margin-bottom:16px;">Regional Supply & Demand Signals</h4>
+          <div style="display:flex; flex-direction:column; gap:16px; margin-bottom:28px;">
+            <div>
+              <div style="display:flex; justify-content:space-between; font-weight:700; font-size:0.95rem; margin-bottom:6px;">
+                <span>Demand Index (Retail & Hospitality)</span>
+                <span class="font-num">89%</span>
+              </div>
+              <div class="progress-bar-wrap" style="height:12px;">
+                <div class="progress-bar-fill" style="width:89%;"></div>
+              </div>
+            </div>
+
+            <div>
+              <div style="display:flex; justify-content:space-between; font-weight:700; font-size:0.95rem; margin-bottom:6px;">
+                <span>Local Mandi Inflow / Supply</span>
+                <span class="font-num">61%</span>
+              </div>
+              <div class="progress-bar-wrap" style="height:12px;">
+                <div class="progress-bar-fill gold" style="width:61%;"></div>
+              </div>
+            </div>
+
+            <div>
+              <div style="display:flex; justify-content:space-between; font-weight:700; font-size:0.95rem; margin-bottom:6px;">
+                <span>7-Day Price Momentum Trend</span>
+                <span class="font-num">82%</span>
+              </div>
+              <div class="progress-bar-wrap" style="height:12px;">
+                <div class="progress-bar-fill" style="width:82%;"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Plain language AI explanation -->
+          <div style="background:#FFFDF5; border:1.5px solid var(--gold-400); border-radius:var(--radius-md); padding:20px; display:flex; gap:16px; align-items:center;">
+            <span style="font-size:2rem;">💡</span>
+            <div>
+              <h5 style="font-size:1.05rem; font-weight:800; color:#78350F; margin-bottom:4px;">KrishiLink AI Recommendation</h5>
+              <p style="font-size:0.95rem; color:#92400E;" data-i18n="ai_price_explanation">
+                “Demand is increasing while local supply is decreasing. AI recommends waiting 2–3 days before selling to capture higher bids.”
+              </p>
+            </div>
+          </div>
+
+          <div style="display:flex; gap:14px; margin-top:24px;">
+            <button class="btn btn-accent btn-lg" style="flex:1;" onclick="window.KrishiApp.switchView('buyer-matches')" data-i18n="btn_find_best_buyer">
+              🤝 Find Best Buyer
+            </button>
+            <button class="btn btn-primary btn-lg" style="flex:1;" onclick="window.KrishiSellWizard.openWizard()" data-i18n="btn_sell_now">
+              🌾 Sell Now
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           VIEW 5: BEST BUYERS (Section 10)
+           ==================================================================== -->
+      <section id="view-buyer-matches" class="view-section">
+        <div class="section-header-flex">
+          <div>
+            <h2 style="font-size:1.75rem; font-weight:800; color:var(--green-900);" data-i18n="best_buyers_title">Best Buyers For Your Produce</h2>
+            <span class="text-caption">AI-ranked buyers based on offer price, distance, payment reliability, and route convenience</span>
+          </div>
+          <button class="btn btn-secondary btn-sm" onclick="window.KrishiApp.switchView('marketplace')">
+            Browse All Demands
+          </button>
+        </div>
+
+        <div class="buyer-cards-grid" id="buyer-matches-grid" style="margin-top:24px;">
+          <!-- Dynamically populated via app.js -->
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           VIEW 6: MARKETPLACE (Section 11)
+           ==================================================================== -->
+      <section id="view-marketplace" class="view-section">
+        <div class="section-header-flex">
+          <div>
+            <h2 style="font-size:1.75rem; font-weight:800; color:var(--green-900);" data-i18n="marketplace_title">Farmer Marketplace</h2>
+            <span class="text-caption">Direct agricultural demand boards from verified institutional buyers and retailers</span>
+          </div>
+          <button class="btn btn-accent btn-sm btn-add-produce-modal">
+            + Post My Crop
+          </button>
+        </div>
+
+        <!-- Filter pills -->
+        <div style="display:flex; gap:10px; margin:20px 0; overflow-x:auto; padding-bottom:6px;">
+          <button class="pill pill-green" style="cursor:pointer;" data-i18n="filter_near_me">Near Me (20 km)</button>
+          <button class="pill pill-gold" style="cursor:pointer;" data-i18n="filter_high_price">Highest Price</button>
+          <button class="pill pill-earth" style="cursor:pointer;" data-i18n="filter_bulk">Bulk Buyers</button>
+          <button class="pill pill-info" style="cursor:pointer;" data-i18n="filter_fast_pay">Fast Payment</button>
+        </div>
+
+        <!-- Demand cards list -->
+        <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(360px, 1fr)); gap:20px;">
+          <div class="card">
+            <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+              <span class="pill pill-gold">🔥 High Demand</span>
+              <span style="font-size:0.8rem; color:var(--text-muted)">18 km away</span>
+            </div>
+            <h4 style="font-size:1.3rem; font-weight:800; color:var(--green-900); margin:12px 0 4px 0;">🍅 Tomato (Hybrid Red)</h4>
+            <p style="font-size:0.9rem; color:var(--text-secondary)">Buyer: <strong>ABC Foods India Ltd.</strong></p>
+            <div style="background:var(--bg-card-alt); border-radius:var(--radius-md); padding:12px; margin:14px 0; display:flex; justify-content:space-between;">
+              <div>
+                <span class="text-caption">Required Quantity</span>
+                <div style="font-size:1.15rem; font-weight:800;">1,000 KG</div>
+              </div>
+              <div style="text-align:right">
+                <span class="text-caption">Offering Price</span>
+                <div style="font-size:1.25rem; font-weight:800; color:var(--green-900);">₹32.00/kg</div>
+              </div>
+            </div>
+            <button class="btn btn-primary btn-sm" style="width:100%" onclick="window.KrishiNegotiation.openNegotiation('ABC Foods India Ltd.', 32.00)">
+              Respond to Demand
+            </button>
+          </div>
+
+          <div class="card">
+            <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+              <span class="pill pill-green">✓ Verified Retailer</span>
+              <span style="font-size:0.8rem; color:var(--text-muted)">12 km away</span>
+            </div>
+            <h4 style="font-size:1.3rem; font-weight:800; color:var(--green-900); margin:12px 0 4px 0;">🥔 Potato (Kufri Jyoti)</h4>
+            <p style="font-size:0.9rem; color:var(--text-secondary)">Buyer: <strong>FreshMart Supermarket</strong></p>
+            <div style="background:var(--bg-card-alt); border-radius:var(--radius-md); padding:12px; margin:14px 0; display:flex; justify-content:space-between;">
+              <div>
+                <span class="text-caption">Required Quantity</span>
+                <div style="font-size:1.15rem; font-weight:800;">600 KG</div>
+              </div>
+              <div style="text-align:right">
+                <span class="text-caption">Offering Price</span>
+                <div style="font-size:1.25rem; font-weight:800; color:var(--green-900);">₹26.50/kg</div>
+              </div>
+            </div>
+            <button class="btn btn-primary btn-sm" style="width:100%" onclick="window.KrishiNegotiation.openNegotiation('FreshMart Supermarket', 26.50)">
+              Respond to Demand
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           VIEW 7: ORDERS (Section 13)
+           ==================================================================== -->
+      <section id="view-orders" class="view-section">
+        <div class="section-header-flex">
+          <div>
+            <h2 style="font-size:1.75rem; font-weight:800; color:var(--green-900);" data-i18n="orders_title">My Orders & Shipments</h2>
+            <span class="text-caption">Real-time status tracking from farm pickup to instant bank payment settlement</span>
+          </div>
+        </div>
+
+        <div id="orders-list-container" style="margin-top:24px;">
+          <!-- Dynamically populated via app.js -->
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           VIEW 8: LOGISTICS & SMART PICKUP (Section 14)
+           ==================================================================== -->
+      <section id="view-logistics" class="view-section">
+        <div class="section-header-flex">
+          <div>
+            <h2 style="font-size:1.75rem; font-weight:800; color:var(--green-900);" data-i18n="logistics_title">Smart Pickup & Route Optimization</h2>
+            <span class="text-caption">AI-powered multi-farm consolidated route minimizing travel time and transport fee</span>
+          </div>
+          <button class="btn btn-secondary btn-sm" onclick="window.KrishiLogistics.callDriver()" data-i18n="btn_contact_driver">
+            📞 Contact Driver
+          </button>
+        </div>
+
+        <!-- Vehicle arrival card -->
+        <div class="card" style="margin:20px 0;">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;">
+            <div style="display:flex; align-items:center; gap:16px;">
+              <img src="assets/images/truck.jpg" style="width:80px; height:80px; border-radius:var(--radius-md); object-fit:cover; border:2px solid var(--border-soft);"/>
+              <div>
+                <span class="pill pill-green" style="margin-bottom:4px;">🚚 Vehicle En Route</span>
+                <h3 style="font-size:1.4rem; font-weight:800; color:var(--green-900);">Driver: Raju Mohanty</h3>
+                <p style="font-size:0.9rem; color:var(--text-secondary)">Vehicle: <strong>OD-02-AB-1234</strong> (Mahindra Electric Pickup)</p>
+              </div>
+            </div>
+
+            <div style="text-align:right;">
+              <span class="text-caption">Estimated Arrival</span>
+              <div style="font-size:2.2rem; font-weight:800; color:var(--green-900); line-height:1;">8:22 AM</div>
+              <span class="pill pill-gold" style="margin-top:6px;">In 12 minutes</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Dynamic SVG Map Container -->
+        <div id="logistics-svg-map-wrap" style="margin-bottom:20px;">
+          <!-- SVG map rendered via logistics-map.js -->
+        </div>
+
+        <!-- AI Route Optimization Metric Card -->
+        <div style="background:linear-gradient(135deg, #1B4332 0%, #2D6A4F 100%); color:#FFFFFF; border-radius:var(--radius-lg); padding:24px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;">
+          <div style="display:flex; align-items:center; gap:16px;">
+            <div style="width:50px; height:50px; border-radius:var(--radius-pill); background:rgba(255,255,255,0.15); display:flex; align-items:center; justify-content:center; font-size:1.6rem;">🤖</div>
+            <div>
+              <h4 style="font-size:1.2rem; font-weight:800;">KrishiLink AI Route Consolidation</h4>
+              <p style="font-size:0.9rem; color:#D8F3DC;">Route combines 3 neighboring farms in Khordha to maximize truck load efficiency.</p>
+            </div>
+          </div>
+
+          <div style="display:flex; gap:20px;">
+            <div style="text-align:center;">
+              <div style="font-size:1.6rem; font-weight:800; color:var(--gold-400);">18%</div>
+              <span style="font-size:0.75rem; color:#D8F3DC;">Shorter Distance</span>
+            </div>
+            <div style="text-align:center;">
+              <div style="font-size:1.6rem; font-weight:800; color:var(--gold-400);">₹420</div>
+              <span style="font-size:0.75rem; color:#D8F3DC;">Estimated Fuel Saved</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           VIEW 9: QUALITY PROTECTION & DISPUTE (Section 15)
+           ==================================================================== -->
+      <section id="view-quality-protection" class="view-section">
+        <div class="section-header-flex">
+          <div>
+            <h2 style="font-size:1.75rem; font-weight:800; color:var(--green-900);">Quality Verification & Escrow Protection</h2>
+            <span class="text-caption">AI sensor verification ensures you get paid for Grade A produce without arbitrary buyer deductions</span>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top:20px;">
+          <div style="display:flex; gap:24px; flex-wrap:wrap; align-items:center;">
+            <img src="assets/images/tomato.jpg" style="width:140px; height:140px; border-radius:var(--radius-lg); object-fit:cover; border:3px solid var(--green-600);"/>
+            <div style="flex:1;">
+              <span class="pill pill-green">Order #KL10294</span>
+              <h3 style="font-size:1.5rem; font-weight:800; color:var(--green-900); margin:6px 0;">Hybrid Red Tomato (500 KG)</h3>
+              <p style="color:var(--text-secondary)">Inspected at: Khordha Smart Collection Center • 08:30 AM</p>
+
+              <div style="display:flex; gap:16px; margin-top:14px; flex-wrap:wrap;">
+                <span class="tag-verified">✓ Freshness Verified (95%)</span>
+                <span class="tag-verified">✓ Quantity Verified (500.4 kg)</span>
+                <span class="tag-verified">✓ Brix / Sweetness Verified</span>
+              </div>
+            </div>
+
+            <div style="text-align:center; padding:16px 24px; background:var(--bg-card-alt); border-radius:var(--radius-lg);">
+              <span class="text-caption">AI Quality Score</span>
+              <div style="font-size:2.5rem; font-weight:800; color:var(--green-700); line-height:1; margin:6px 0;">92/100</div>
+              <span class="pill pill-gold">Grade A Certified</span>
+            </div>
+          </div>
+
+          <!-- Dynamic Quality Acceptance Status Box -->
+          <div id="quality-status-banner" style="margin-top:24px; background:#E8F7EE; border:1.5px solid #22C55E; border-radius:var(--radius-md); padding:18px 24px; display:flex; justify-content:space-between; align-items:center;">
+            <div style="display:flex; align-items:center; gap:12px; color:#14532D;">
+              <span style="font-size:1.8rem">🟢</span>
+              <div>
+                <h4 style="font-weight:800; font-size:1.1rem">QUALITY ACCEPTED & VERIFIED</h4>
+                <p style="font-size:0.88rem">Grade A quality confirmed by Collection Hub sensor. Payment released into your settlement account.</p>
+              </div>
+            </div>
+            <button class="btn btn-primary btn-sm" onclick="window.KrishiApp.switchView('earnings')">View Earnings</button>
+          </div>
+
+          <!-- Simulation test buttons -->
+          <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:16px;">
+            <button class="btn btn-secondary btn-sm" onclick="KrishiApp.toggleDisputeState(false)">
+              Simulate: Quality Accepted
+            </button>
+            <button class="btn btn-danger btn-sm" onclick="KrishiApp.toggleDisputeState(true)">
+              Simulate: Buyer Flagged Issue
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           VIEW 10: MY EARNINGS & SETTLEMENT (Section 16 & 17)
+           ==================================================================== -->
+      <section id="view-earnings" class="view-section">
+        <div class="section-header-flex">
+          <div>
+            <h2 style="font-size:1.75rem; font-weight:800; color:var(--green-900);" data-i18n="earnings_title">My Earnings & Financial Health</h2>
+            <span class="text-caption">Transparent direct payments to your linked bank account with zero middleman deductions</span>
+          </div>
+          <div style="display:flex; gap:10px;">
+            <button class="btn btn-secondary btn-sm" id="btn-open-settlement">
+              📜 View Settlement Slip
+            </button>
+            <button class="btn btn-accent btn-sm" id="btn-withdraw-action" data-i18n="btn_withdraw">
+              💸 Withdraw to Bank
+            </button>
+          </div>
+        </div>
+
+        <!-- Big Financial Breakdown Cards -->
+        <div style="display:grid; grid-template-columns: 340px 1fr; gap:24px; margin:24px 0;">
+          <!-- Net Earnings Hero Card -->
+          <div class="card card-ai-glow" style="display:flex; flex-direction:column; justify-content:space-between;">
+            <div>
+              <span class="text-caption" data-i18n="total_net_earnings">Net Available Earnings</span>
+              <div style="font-size:2.8rem; font-weight:800; color:var(--green-900); line-height:1.1; margin:8px 0;">
+                ₹47,850
+              </div>
+              <span class="pill pill-green" data-i18n="this_month_growth">↑ 26.8% vs last month</span>
+            </div>
+
+            <div style="margin-top:24px; padding-top:16px; border-top:1px solid var(--border-soft);">
+              <span class="text-caption">Linked Payout Account:</span>
+              <p style="font-size:0.9rem; font-weight:700; color:var(--green-900); margin-top:2px;">
+                State Bank of India (Jatani) •••• 4819
+              </p>
+            </div>
+          </div>
+
+          <!-- Itemized Deductions Transparency -->
+          <div class="card">
+            <h4 style="font-size:1.15rem; font-weight:800; margin-bottom:16px;">Transparent Earnings Breakdown (September MTD)</h4>
+            <div style="display:flex; flex-direction:column; gap:12px;">
+              <div style="display:flex; justify-content:space-between; font-size:1rem; padding-bottom:8px; border-bottom:1px dashed var(--border-soft);">
+                <span data-i18n="total_sales">Total Gross Sales</span>
+                <span style="font-weight:800; color:var(--green-900);">₹51,200</span>
+              </div>
+              <div style="display:flex; justify-content:space-between; font-size:1rem; padding-bottom:8px; border-bottom:1px dashed var(--border-soft); color:#DC2626;">
+                <span data-i18n="logistics_fee">Smart Consolidated Logistics</span>
+                <span style="font-weight:700;">-₹2,100</span>
+              </div>
+              <div style="display:flex; justify-content:space-between; font-size:1rem; padding-bottom:8px; border-bottom:1px dashed var(--border-soft); color:#DC2626;">
+                <span data-i18n="platform_fee">KrishiLink Platform Fee (1.5%)</span>
+                <span style="font-weight:700;">-₹1,250</span>
+              </div>
+              <div style="display:flex; justify-content:space-between; font-size:1.25rem; font-weight:800; color:var(--green-900); padding-top:4px;">
+                <span data-i18n="total_net_earnings">Net Farmer Settlement</span>
+                <span>₹47,850</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent Settlements List -->
+        <h3 style="font-size:1.25rem; font-weight:800; margin-bottom:16px;" data-i18n="recent_transactions">Recent Settlements</h3>
+        <div class="card">
+          <table style="width:100%; border-collapse:collapse; text-align:left;">
+            <thead>
+              <tr style="border-bottom:1.5px solid var(--border-soft); font-size:0.85rem; color:var(--text-muted);">
+                <th style="padding:12px;">ORDER / TXN</th>
+                <th style="padding:12px;">BUYER</th>
+                <th style="padding:12px;">CROP & QTY</th>
+                <th style="padding:12px;">GROSS</th>
+                <th style="padding:12px;">NET TRANSFERRED</th>
+                <th style="padding:12px;">STATUS</th>
+              </tr>
+            </thead>
+            <tbody style="font-size:0.95rem;">
+              <tr style="border-bottom:1px solid var(--border-soft);">
+                <td style="padding:16px 12px; font-weight:700;">TXN-9021</td>
+                <td style="padding:16px 12px;">ABC Foods India Ltd.</td>
+                <td style="padding:16px 12px;">Tomato (500 kg)</td>
+                <td style="padding:16px 12px;">₹16,000</td>
+                <td style="padding:16px 12px; font-weight:800; color:var(--green-800);">₹15,180</td>
+                <td style="padding:16px 12px;"><span class="pill pill-gold">In Transit Escrow</span></td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border-soft);">
+                <td style="padding:16px 12px; font-weight:700;">TXN-8942</td>
+                <td style="padding:16px 12px;">FreshMart Supermarkets</td>
+                <td style="padding:16px 12px;">Potato (300 kg)</td>
+                <td style="padding:16px 12px;">₹9,300</td>
+                <td style="padding:16px 12px; font-weight:800; color:var(--green-800);">₹8,810</td>
+                <td style="padding:16px 12px;"><span class="pill pill-green">✓ Settled to Bank</span></td>
+              </tr>
+              <tr>
+                <td style="padding:16px 12px; font-weight:700;">TXN-8815</td>
+                <td style="padding:16px 12px;">Odisha Retail Hub</td>
+                <td style="padding:16px 12px;">Onion (250 kg)</td>
+                <td style="padding:16px 12px;">₹7,500</td>
+                <td style="padding:16px 12px; font-weight:800; color:var(--green-800);">₹7,120</td>
+                <td style="padding:16px 12px;"><span class="pill pill-green">✓ Settled to Bank</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           VIEW 11: TRUST SCORE (Section 18)
+           ==================================================================== -->
+      <section id="view-trust-score" class="view-section">
+        <div class="card card-gold-glow" style="margin-bottom:24px; text-align:center; padding:36px;">
+          <span class="pill pill-gold" style="margin-bottom:12px;">Official KrishiLink Credibility Index</span>
+          <h2 style="font-size:2.2rem; font-weight:800; color:var(--green-900);" data-i18n="trust_title">Krishi Trust Score</h2>
+          <div style="font-size:4rem; font-weight:800; color:var(--green-800); line-height:1; margin:16px 0;">94 / 100</div>
+          <p style="max-width:550px; margin:0 auto 24px auto; color:var(--text-secondary);">
+            Your top-tier score unlocks <strong>Instant Escrow Release</strong>, priority placement in buyer matching, and zero advance deposit requirements.
+          </p>
+
+          <div style="display:flex; justify-content:center; gap:12px; flex-wrap:wrap;">
+            <span class="pill pill-gold">🏅 <span data-i18n="badge_champion">Quality Champion</span></span>
+            <span class="pill pill-green">🏅 <span data-i18n="badge_trusted">Trusted Seller</span></span>
+            <span class="pill pill-earth">🏅 <span data-i18n="badge_reliable">Reliable Farmer</span></span>
+          </div>
+        </div>
+
+        <div style="display:grid; grid-template-columns:repeat(4, 1fr); gap:16px;">
+          <div class="card" style="text-align:center;">
+            <span class="text-caption">Successful Deliveries</span>
+            <div style="font-size:1.8rem; font-weight:800; color:var(--green-900); margin-top:6px;">38 Orders</div>
+            <span style="font-size:0.75rem; color:#16A34A;">100% Fulfilled</span>
+          </div>
+          <div class="card" style="text-align:center;">
+            <span class="text-caption">On-Time Pickup Rate</span>
+            <div style="font-size:1.8rem; font-weight:800; color:var(--green-900); margin-top:6px;">96%</div>
+            <span style="font-size:0.75rem; color:#16A34A;">Ready at Gate</span>
+          </div>
+          <div class="card" style="text-align:center;">
+            <span class="text-caption">Quality Grade A Pass Rate</span>
+            <div style="font-size:1.8rem; font-weight:800; color:var(--green-900); margin-top:6px;">98.5%</div>
+            <span style="font-size:0.75rem; color:#16A34A;">Sensor Verified</span>
+          </div>
+          <div class="card" style="text-align:center;">
+            <span class="text-caption">Dispute History</span>
+            <div style="font-size:1.8rem; font-weight:800; color:var(--green-900); margin-top:6px;">0</div>
+            <span style="font-size:0.75rem; color:#16A34A;">Zero Disputed Claims</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           VIEW 12: FARMER PROFILE (Section 22)
+           ==================================================================== -->
+      <section id="view-profile" class="view-section">
+        <div class="card" style="margin-bottom:24px;">
+          <div style="display:flex; gap:24px; align-items:center; flex-wrap:wrap;">
+            <img src="assets/images/ramesh.jpg" style="width:110px; height:110px; border-radius:var(--radius-pill); object-fit:cover; border:4px solid var(--green-600);"/>
+            <div>
+              <div style="display:flex; align-items:center; gap:10px;">
+                <h2 style="font-size:1.8rem; font-weight:800; color:var(--green-900);">Ramesh Kumar</h2>
+                <span class="pill pill-green">✓ Verified Farmer</span>
+              </div>
+              <p style="color:var(--text-secondary); margin-top:4px;">📍 Jatani, Khordha District, Odisha • Member of Khordha Krushak FPO</p>
+              <div style="display:flex; gap:14px; margin-top:12px;">
+                <span class="pill pill-gold">KCC: OD-KHR-882194</span>
+                <span class="pill pill-earth">Aadhaar Verified</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:grid; grid-template-columns: repeat(4, 1fr); gap:16px; margin-bottom:24px;">
+          <div class="card">
+            <span class="text-caption">Cultivable Land</span>
+            <div style="font-size:1.4rem; font-weight:800; color:var(--green-900); margin-top:4px;">3.5 Acres</div>
+          </div>
+          <div class="card">
+            <span class="text-caption">Active Crops</span>
+            <div style="font-size:1.4rem; font-weight:800; color:var(--green-900); margin-top:4px;">4 Active</div>
+          </div>
+          <div class="card">
+            <span class="text-caption">Total Produce Sold</span>
+            <div style="font-size:1.4rem; font-weight:800; color:var(--green-900); margin-top:4px;">12,500 KG</div>
+          </div>
+          <div class="card">
+            <span class="text-caption">Total Platform Revenue</span>
+            <div style="font-size:1.4rem; font-weight:800; color:var(--green-900); margin-top:4px;">₹4.80 Lakh</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h4 style="font-size:1.15rem; font-weight:800; margin-bottom:16px;">Account & Farm Settings</h4>
+          <div style="display:grid; grid-template-columns:repeat(2, 1fr); gap:16px;">
+            <button class="btn btn-secondary" style="justify-content:flex-start;">
+              🏦 Linked Bank Account: SBI Jatani (•••• 4819)
+            </button>
+            <button class="btn btn-secondary" style="justify-content:flex-start;">
+              📄 Kisan Credit Card & Land Records (RoR)
+            </button>
+            <button class="btn btn-secondary" style="justify-content:flex-start;">
+              🌐 Language Preference: English / हिन्दी / ଓଡ଼ିଆ
+            </button>
+            <button class="btn btn-secondary" style="justify-content:flex-start;">
+              🔔 SMS & WhatsApp Mandi Alerts
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           VIEW 13: NOTIFICATIONS (Section 21)
+           ==================================================================== -->
+      <section id="view-notifications" class="view-section">
+        <div class="section-header-flex">
+          <div>
+            <h2 style="font-size:1.75rem; font-weight:800; color:var(--green-900);">Notifications & Alerts</h2>
+            <span class="text-caption">Categorized updates on AI price forecasts, buyers, orders, logistics, and weather</span>
+          </div>
+        </div>
+
+        <div id="notif-list-container" style="margin-top:20px;">
+          <!-- Populated via app.js -->
+        </div>
+      </section>
+
+    </div>
+  </main>
+</div>
+
+<!-- ==========================================================================
+     MOBILE BOTTOM NAVIGATION (Section 3)
+     ========================================================================== -->
+<nav class="mobile-bottom-nav">
+  <div class="mob-nav-item active" data-view="dashboard">
+    <span class="mob-icon">🏠</span>
+    <span data-i18n="mob_home">Home</span>
+  </div>
+  <div class="mob-nav-item" onclick="window.KrishiSellWizard.openWizard()">
+    <span class="mob-icon">🌾</span>
+    <span data-i18n="mob_sell">Sell</span>
+  </div>
+  <div class="mob-nav-item" data-view="orders">
+    <span class="mob-icon">📦</span>
+    <span data-i18n="mob_orders">Orders</span>
+  </div>
+  <div class="mob-nav-item" data-view="earnings">
+    <span class="mob-icon">💰</span>
+    <span data-i18n="mob_money">Money</span>
+  </div>
+  <div class="mob-nav-item" data-view="profile">
+    <span class="mob-icon">👤</span>
+    <span data-i18n="mob_profile">Profile</span>
+  </div>
+</nav>
+
+<!-- Floating Mobile Ask AI Button (Section 3) -->
+<button class="floating-ai-button btn-trigger-ai" aria-label="Ask Krishi AI">
+  <span>🤖</span>
+  <span data-i18n="btn_ask_ai">Ask Krishi AI</span>
+</button>
+
+<!-- ==========================================================================
+     MODAL 1: 5-STEP SELL PRODUCE WIZARD (Section 8)
+     ========================================================================== -->
+<div class="modal-overlay" id="sell-produce-modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3>
+        <span>🌾</span>
+        <span>List & Sell Harvest with AI</span>
+      </h3>
+      <button class="btn-close-modal" aria-label="Close">✕</button>
+    </div>
+
+    <div class="modal-body">
+      <!-- 5-Step Stepper -->
+      <div class="wizard-stepper">
+        <div class="wizard-step-node active" id="step-node-1">
+          <div class="wizard-step-num">1</div>
+          <span class="wizard-step-label">Crop</span>
+        </div>
+        <div class="wizard-step-node" id="step-node-2">
+          <div class="wizard-step-num">2</div>
+          <span class="wizard-step-label">Quantity</span>
+        </div>
+        <div class="wizard-step-node" id="step-node-3">
+          <div class="wizard-step-num">3</div>
+          <span class="wizard-step-label">AI Quality</span>
+        </div>
+        <div class="wizard-step-node" id="step-node-4">
+          <div class="wizard-step-num">4</div>
+          <span class="wizard-step-label">AI Price</span>
+        </div>
+        <div class="wizard-step-node" id="step-node-5">
+          <div class="wizard-step-num">5</div>
+          <span class="wizard-step-label">Publish</span>
+        </div>
+      </div>
+
+      <!-- STEP 1: What are you selling? -->
+      <div id="wizard-step-1">
+        <h4 style="font-size:1.2rem; font-weight:800; color:var(--green-900);">What crop are you selling?</h4>
+        <p style="font-size:0.9rem; color:var(--text-secondary); margin-bottom:16px;">Select the produce you have ready for harvest or sale</p>
+
+        <div class="crops-pick-grid">
+          <div class="crop-pick-card selected" data-crop="tomato" data-name="Tomato" data-emoji="🍅" data-img="assets/images/tomato.jpg">
+            <span class="crop-pick-emoji">🍅</span>
+            <span class="crop-pick-name">Tomato</span>
+          </div>
+          <div class="crop-pick-card" data-crop="potato" data-name="Potato" data-emoji="🥔" data-img="assets/images/potato.jpg">
+            <span class="crop-pick-emoji">🥔</span>
+            <span class="crop-pick-name">Potato</span>
+          </div>
+          <div class="crop-pick-card" data-crop="onion" data-name="Onion" data-emoji="🧅" data-img="assets/images/onion.jpg">
+            <span class="crop-pick-emoji">🧅</span>
+            <span class="crop-pick-name">Onion</span>
+          </div>
+          <div class="crop-pick-card" data-crop="brinjal" data-name="Brinjal" data-emoji="🍆" data-img="assets/images/brinjal.jpg">
+            <span class="crop-pick-emoji">🍆</span>
+            <span class="crop-pick-name">Brinjal</span>
+          </div>
+          <div class="crop-pick-card" data-crop="paddy" data-name="Paddy" data-emoji="🌾" data-img="assets/images/tomato.jpg">
+            <span class="crop-pick-emoji">🌾</span>
+            <span class="crop-pick-name">Paddy</span>
+          </div>
+          <div class="crop-pick-card" data-crop="maize" data-name="Maize" data-emoji="🌽" data-img="assets/images/potato.jpg">
+            <span class="crop-pick-emoji">🌽</span>
+            <span class="crop-pick-name">Maize</span>
+          </div>
+          <div class="crop-pick-card" data-crop="veggies" data-name="Vegetables" data-emoji="🥒" data-img="assets/images/onion.jpg">
+            <span class="crop-pick-emoji">🥒</span>
+            <span class="crop-pick-name">Veggies</span>
+          </div>
+          <div class="crop-pick-card" data-crop="fruits" data-name="Fruits" data-emoji="🍎" data-img="assets/images/tomato.jpg">
+            <span class="crop-pick-emoji">🍎</span>
+            <span class="crop-pick-name">Fruits</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 2: How much do you have? -->
+      <div id="wizard-step-2" style="display:none;">
+        <h4 style="font-size:1.2rem; font-weight:800; color:var(--green-900);">Quantity & Harvest Date</h4>
+        <p style="font-size:0.9rem; color:var(--text-secondary); margin-bottom:20px;">Enter your estimated weight and ready date</p>
+
+        <div class="farmer-form-group">
+          <label class="farmer-form-label">Available Harvest Quantity</label>
+          <div class="farmer-input-wrap">
+            <input type="number" id="wizard-qty-input" class="farmer-input" value="500" min="50" step="50"/>
+            <span class="input-unit-tag">KG</span>
+          </div>
+        </div>
+
+        <div class="farmer-form-group">
+          <label class="farmer-form-label">Expected Harvest / Pluck Date</label>
+          <input type="date" class="farmer-input" value="2026-09-08"/>
+        </div>
+
+        <div class="farmer-form-group">
+          <label class="farmer-form-label">Farm Pickup Location</label>
+          <input type="text" class="farmer-input" value="📍 Khordha Farm Field, Jatani, Odisha" readonly style="background:#FAF7F2;"/>
+        </div>
+      </div>
+
+      <!-- STEP 3: AI Quality Inspection -->
+      <div id="wizard-step-3" style="display:none;">
+        <h4 style="font-size:1.2rem; font-weight:800; color:var(--green-900);">AI Computer Vision Quality Inspection</h4>
+        <p style="font-size:0.9rem; color:var(--text-secondary); margin-bottom:16px;">AI scans skin texture, color uniformity, and calculates Grade classification</p>
+
+        <div class="quality-scan-box">
+          <div class="camera-preview-window">
+            <img src="assets/images/tomato.jpg" class="camera-preview-img" alt="Crop Camera View"/>
+            <div class="scan-laser-beam"></div>
+          </div>
+
+          <div id="ai-scan-status-text" style="font-size:0.9rem; color:#A7F3D0; font-weight:700;">
+            Scanning crop sample with AI Vision...
+          </div>
+
+          <div class="quality-score-circle">
+            <span class="quality-score-num">92</span>
+            <span class="quality-score-grade">GRADE A</span>
+          </div>
+
+          <div class="quality-metrics-grid">
+            <div class="quality-metric-item">
+              <span class="quality-metric-val">95%</span>
+              <span class="quality-metric-label">Freshness</span>
+            </div>
+            <div class="quality-metric-item">
+              <span class="quality-metric-val">89%</span>
+              <span class="quality-metric-label">Size Uniformity</span>
+            </div>
+            <div class="quality-metric-item">
+              <span class="quality-metric-val">4%</span>
+              <span class="quality-metric-label">Damage / Defects</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 4: AI Recommended Price -->
+      <div id="wizard-step-4" style="display:none;">
+        <h4 style="font-size:1.2rem; font-weight:800; color:var(--green-900);">AI Recommended Pricing</h4>
+        <p style="font-size:0.9rem; color:var(--text-secondary); margin-bottom:16px;">Optimized for Khordha region based on today's demand surge</p>
+
+        <div style="background:var(--bg-card-alt); border-radius:var(--radius-lg); padding:20px; margin-bottom:16px;">
+          <div style="display:flex; justify-content:space-between; margin-bottom:12px;">
+            <span class="text-caption">Current APMC Mandi Spot Rate</span>
+            <span style="font-weight:700;">₹29.00 / kg</span>
+          </div>
+          <div style="display:flex; justify-content:space-between; align-items:baseline; padding:12px 0; border-top:1px dashed var(--border-soft); border-bottom:1px dashed var(--border-soft);">
+            <span style="font-weight:800; color:var(--green-900); font-size:1.1rem;">KrishiLink AI Recommended</span>
+            <span style="font-weight:800; color:var(--green-700); font-size:1.5rem;">₹31.00 – ₹33.00 / kg</span>
+          </div>
+          <div style="display:flex; justify-content:space-between; margin-top:12px;">
+            <span class="text-caption">Regional Buyer Urgency</span>
+            <span class="pill pill-gold">🔥 High Demand (4 Bids)</span>
+          </div>
+        </div>
+
+        <div style="background:#EDF7F0; border-radius:var(--radius-md); padding:12px 16px; font-size:0.88rem; color:var(--green-900);">
+          ✓ Guaranteed Minimum Price: Platform protects you against post-harvest drops.
+        </div>
+      </div>
+
+      <!-- STEP 5: Publish Produce Summary -->
+      <div id="wizard-step-5" style="display:none;">
+        <h4 style="font-size:1.2rem; font-weight:800; color:var(--green-900);">Review & Publish Listing</h4>
+        <p style="font-size:0.9rem; color:var(--text-secondary); margin-bottom:16px;">Your produce will be instantly visible to institutional buyers</p>
+
+        <div class="card" style="background:var(--bg-card-alt); margin-bottom:20px;">
+          <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
+            <span class="text-caption">Crop Selected:</span>
+            <strong id="sum-crop-name">🍅 Tomato</strong>
+          </div>
+          <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
+            <span class="text-caption">Listed Quantity:</span>
+            <strong id="sum-qty">500 KG</strong>
+          </div>
+          <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
+            <span class="text-caption">AI Quality Grade:</span>
+            <strong id="sum-quality" style="color:var(--green-700)">Grade A (92/100)</strong>
+          </div>
+          <div style="display:flex; justify-content:space-between;">
+            <span class="text-caption">Asking Price Band:</span>
+            <strong id="sum-price" style="color:var(--green-900); font-size:1.15rem;">₹31 – ₹33 / kg</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn btn-secondary" id="wizard-btn-back" style="visibility:hidden;">
+        ← Back
+      </button>
+      <button class="btn btn-primary" id="wizard-btn-next">
+        Next Step →
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ==========================================================================
+     MODAL 2: NEGOTIATION ROOM (Section 12)
+     ========================================================================== -->
+<div class="modal-overlay" id="negotiation-modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3>
+        <span>🤝</span>
+        <span>Farmer-Buyer Deal Negotiation</span>
+      </h3>
+      <button class="btn-close-modal">✕</button>
+    </div>
+
+    <div class="modal-body">
+      <div class="negotiation-box">
+        <div>
+          <span class="pill pill-gold">Direct Counter-Offer Interface</span>
+          <h4 style="font-size:1.35rem; font-weight:800; color:var(--green-900); margin-top:6px;">
+            Tomato Harvest (500 KG)
+          </h4>
+          <p style="font-size:0.9rem; color:var(--text-secondary)">Buyer: <strong id="neg-buyer-name">ABC Foods India Ltd.</strong> (Khordha)</p>
+        </div>
+
+        <div class="deal-comparison-grid">
+          <div class="deal-price-card buyer">
+            <span class="text-caption">Buyer Current Offer</span>
+            <div class="deal-price" id="neg-buyer-offer" style="font-size:2rem; font-weight:800; color:#B45309;">₹30.00</div>
+            <span style="font-size:0.75rem; color:var(--text-muted)">Per Kilogram</span>
+          </div>
+
+          <div class="deal-price-card ai">
+            <span class="text-caption">AI Suggested Fair Price</span>
+            <div class="deal-price" id="neg-ai-price" style="font-size:2rem; font-weight:800; color:var(--green-700);">₹32.00</div>
+            <span style="font-size:0.75rem; color:var(--green-800)">Grade A Certified Premium</span>
+          </div>
+        </div>
+
+        <div style="background:#FFFFFF; border:1px solid var(--border-soft); border-radius:var(--radius-md); padding:16px;">
+          <label style="font-size:0.9rem; font-weight:700; color:var(--green-900); margin-bottom:8px; display:block;">
+            Your Custom Counter-Offer Price (₹/kg)
+          </label>
+          <div class="counter-input-row">
+            <input type="number" id="neg-counter-input" class="farmer-input" value="32.00" step="0.5" style="max-width:180px;"/>
+            <button class="btn btn-primary" id="btn-submit-counter" onclick="window.KrishiNegotiation.sendCounter()">
+              Send Counter Offer
+            </button>
+          </div>
+        </div>
+
+        <div style="display:flex; flex-direction:column; gap:10px;">
+          <button class="btn btn-accent btn-lg" onclick="window.KrishiNegotiation.acceptOffer(32.00, 'ai')">
+            ✓ Accept AI Recommendation (₹32.00 / kg)
+          </button>
+          <button class="btn btn-secondary btn-sm" onclick="window.KrishiNegotiation.acceptOffer(30.00, 'buyer')">
+            Accept Original Offer (₹30.00 / kg)
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==========================================================================
+     MODAL 3: SETTLEMENT STATEMENT (Section 17)
+     ========================================================================== -->
+<div class="modal-overlay" id="settlement-modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3>
+        <span>🎉</span>
+        <span>Payment Settlement Statement</span>
+      </h3>
+      <button class="btn-close-modal">✕</button>
+    </div>
+
+    <div class="modal-body">
+      <div style="text-align:center; margin-bottom:20px;">
+        <span class="pill pill-green" style="font-size:0.9rem;">✓ Payment Successfully Released</span>
+        <h4 style="font-size:1.4rem; font-weight:800; color:var(--green-900); margin-top:8px;">
+          Order #KL10294 Settlement
+        </h4>
+        <p style="font-size:0.85rem; color:var(--text-secondary)">Tomato (500 kg) • ABC Foods India Ltd.</p>
+      </div>
+
+      <div class="card" style="background:var(--bg-card-alt); margin-bottom:20px;">
+        <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
+          <span>Gross Produce Sale (500 kg @ ₹32):</span>
+          <strong>₹16,000.00</strong>
+        </div>
+        <div style="display:flex; justify-content:space-between; margin-bottom:8px; color:#DC2626;">
+          <span>Smart Consolidated Logistics Fee:</span>
+          <strong>-₹500.00</strong>
+        </div>
+        <div style="display:flex; justify-content:space-between; margin-bottom:8px; color:#DC2626;">
+          <span>Platform Service & Escrow (2%):</span>
+          <strong>-₹320.00</strong>
+        </div>
+        <div style="display:flex; justify-content:space-between; padding-top:12px; border-top:2px dashed var(--border-soft); font-size:1.25rem; font-weight:800; color:var(--green-900);">
+          <span>Net Farmer Settlement:</span>
+          <span>₹15,180.00</span>
+        </div>
+      </div>
+
+      <div style="background:#EDF7F0; border-radius:var(--radius-md); padding:16px; font-size:0.88rem; color:var(--green-900);">
+        🏦 Transferred to: <strong>State Bank of India (Jatani Branch)</strong><br>
+        A/C: •••• 4819 • Ref: DBT-2026-904128
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn btn-primary" style="width:100%" onclick="document.getElementById('settlement-modal').classList.remove('active')">
+        Close Statement
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ==========================================================================
+     DRAWER: KRISHI AI ASSISTANT (Section 19)
+     ========================================================================== -->
+<div class="ai-assistant-modal" id="ai-assistant-modal">
+  <div class="ai-assistant-header">
+    <div style="display:flex; align-items:center; gap:10px;">
+      <span style="font-size:1.6rem;">🤖</span>
+      <div>
+        <h4 style="font-size:1.05rem; font-weight:800; color:#FFFFFF;">Krishi AI Assistant</h4>
+        <span style="font-size:0.72rem; color:#A7F3D0;">Voice & Multilingual Enabled</span>
+      </div>
+    </div>
+    <button class="btn-close-modal" id="ai-assistant-close" style="background:rgba(255,255,255,0.2); color:#FFFFFF; border:none;">✕</button>
+  </div>
+
+  <div class="ai-chat-body" id="ai-chat-body">
+    <!-- Chat messages injected dynamically -->
+  </div>
+
+  <div style="padding: 8px 16px; background:#FFFFFF; border-top:1px solid var(--border-soft);">
+    <div class="ai-suggested-chips">
+      <button class="ai-chip-btn" data-i18n="chip_q1">When should I sell my tomato?</button>
+      <button class="ai-chip-btn" data-i18n="chip_q2">What is today's tomato price?</button>
+      <button class="ai-chip-btn" data-i18n="chip_q3">Which buyer is best for me?</button>
+    </div>
+  </div>
+
+  <form class="ai-chat-input-bar" id="ai-chat-form">
+    <div class="voice-waves-container" id="voice-waves-container">
+      <span class="voice-wave-bar"></span>
+      <span class="voice-wave-bar"></span>
+      <span class="voice-wave-bar"></span>
+      <span class="voice-wave-bar"></span>
+      <span class="voice-wave-bar"></span>
+      <span style="font-size:0.8rem; font-weight:700; color:var(--green-800); margin-left:8px;" data-i18n="ai_listening">Listening...</span>
+    </div>
+
+    <input type="text" id="ai-chat-input" class="farmer-input" style="padding:10px 14px; font-size:0.95rem;" placeholder="Ask in English, हिन्दी, or ଓଡ଼ିଆ..."/>
+
+    <button type="button" class="btn-icon-only btn-primary" id="ai-voice-mic-btn" aria-label="Voice input">
+      🎤
+    </button>
+    <button type="submit" class="btn-icon-only btn-accent" aria-label="Send">
+      ➤
+    </button>
+  </form>
+</div>
+
+<!-- ==========================================================================
+     AUTHENTICATION MODAL (FARMER & CONSUMER)
+     ========================================================================== -->
+<div class="modal-overlay" id="auth-modal">
+  <div class="modal-content auth-modal-content">
+    <div class="modal-header">
+      <h3>
+        <span>🔐</span>
+        <span>KrishiLink AI Authentication</span>
+      </h3>
+      <button class="btn-close-modal" onclick="window.KrishiAuth.closeAuthModal()">✕</button>
+    </div>
+
+    <div class="modal-body">
+      <!-- Role Switcher Tabs -->
+      <div class="auth-role-tabs">
+        <button class="auth-role-tab active" data-role="farmer">
+          <span>🌾</span>
+          <span>Farmer / FPO</span>
+        </button>
+        <button class="auth-role-tab" data-role="consumer">
+          <span>🛒</span>
+          <span>Consumer / Buyer</span>
+        </button>
+      </div>
+
+      <p id="auth-role-hint" style="font-size: 0.85rem; color: var(--text-secondary); text-align: center; margin-bottom: 16px;">
+        Farmer & FPO Login: Access AI crop pricing, orders & instant payments
+      </p>
+
+      <!-- Phone Number Input Pane -->
+      <div class="auth-form-pane" id="auth-phone-pane">
+        <div class="farmer-form-group">
+          <label class="farmer-form-label">Indian Mobile Number</label>
+          <div style="display: flex; gap: 10px;">
+            <span style="display: flex; align-items: center; padding: 0 14px; background: var(--bg-card-alt); border: 2px solid var(--border-soft); border-radius: var(--radius-md); font-weight: 700; color: var(--green-900);">+91</span>
+            <input type="tel" id="auth-phone-input" class="farmer-input" placeholder="94370 12894" maxlength="10" value="9437012894"/>
+          </div>
+        </div>
+
+        <button class="btn btn-primary btn-lg" id="btn-send-otp" style="width: 100%;">
+          Send Verification OTP →
+        </button>
+      </div>
+
+      <!-- OTP Input Pane -->
+      <div class="auth-form-pane" id="auth-otp-pane" style="display: none;">
+        <p style="font-size: 0.9rem; text-align: center; color: var(--text-secondary);">
+          Enter 4-digit code sent to your mobile:
+        </p>
+
+        <div class="otp-boxes-grid">
+          <input type="text" maxlength="1" class="otp-box" id="otp-1" value="4"/>
+          <input type="text" maxlength="1" class="otp-box" id="otp-2" value="8"/>
+          <input type="text" maxlength="1" class="otp-box" id="otp-3" value="1"/>
+          <input type="text" maxlength="1" class="otp-box" id="otp-4" value="9"/>
+        </div>
+
+        <button class="btn btn-accent btn-lg" id="btn-verify-otp" style="width: 100%;">
+          Verify & Sign In ✓
+        </button>
+      </div>
+
+      <!-- Quick 1-Click Demo Login Box -->
+      <div class="quick-demo-login-box">
+        <span class="caption">⚡ Quick Demo Access (1-Click)</span>
+        <div id="demo-farmer-wrap">
+          <button class="btn btn-secondary btn-sm" id="btn-demo-login-farmer" style="width: 100%; justify-content: flex-start; gap: 10px;">
+            <img src="assets/images/ramesh.jpg" style="width: 28px; height: 28px; border-radius: 50%; object-fit: cover;"/>
+            <span>Sign in as <strong>Ramesh Kumar (Farmer)</strong></span>
+          </button>
+        </div>
+        <div id="demo-consumer-wrap" style="display: none; margin-top: 8px;">
+          <button class="btn btn-secondary btn-sm" id="btn-demo-login-consumer" style="width: 100%; justify-content: flex-start; gap: 10px;">
+            <span>🛒</span>
+            <span>Sign in as <strong>Priya Sharma (Consumer / ABC Foods)</strong></span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==========================================================================
+     CONSUMER CART DRAWER
+     ========================================================================== -->
+<div class="consumer-cart-drawer" id="consumer-cart-drawer">
+  <div class="modal-header">
+    <h3>
+      <span>🛒</span>
+      <span>Direct Farm Cart</span>
+    </h3>
+    <button class="btn-close-modal" id="btn-close-cart">✕</button>
+  </div>
+
+  <div style="flex: 1; padding: 20px; overflow-y: auto;" id="consumer-cart-items-list">
+    <!-- Rendered via consumer.js -->
+  </div>
+
+  <div style="padding: 20px; border-top: 1px solid var(--border-soft); background: var(--bg-card-alt);">
+    <div style="display: flex; justify-content: space-between; font-size: 1.15rem; font-weight: 800; color: var(--green-900); margin-bottom: 14px;">
+      <span>Total Amount:</span>
+      <span id="consumer-cart-total">₹640.00</span>
+    </div>
+    <button class="btn btn-primary btn-lg" id="btn-cart-checkout" style="width: 100%; justify-content: center;">
+      Confirm Direct Farm Order →
+    </button>
+  </div>
+</div>
+
+<!-- ==========================================================================
+     JavaScript Modules
+     ========================================================================== -->
+<script src="js/i18n.js"></script>
+<script src="js/audio.js"></script>
+<script src="js/data.js"></script>
+<script src="js/sell-wizard.js"></script>
+<script src="js/negotiation.js"></script>
+<script src="js/logistics-map.js"></script>
+<script src="js/ai-assistant.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/consumer.js"></script>
+<script src="js/app.js"></script>
+
+</body>
+</html>

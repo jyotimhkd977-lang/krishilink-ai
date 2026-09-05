@@ -1,0 +1,397 @@
+/* ==========================================================================
+   KrishiLink AI — Design System & Theme
+   EcoFarm-inspired Premium Agricultural & FinTech Aesthetic
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;600;700&family=Noto+Sans+Oriya:wght@400;600;700&display=swap');
+
+:root {
+  /* Agricultural Greens */
+  --green-900: #0B2319;
+  --green-850: #133324;
+  --green-800: #1B4332;
+  --green-700: #2D6A4F;
+  --green-600: #40916C;
+  --green-500: #52B788;
+  --green-400: #74C69D;
+  --green-200: #B7E4C7;
+  --green-100: #D8F3DC;
+  --green-50:  #EDF7F0;
+
+  /* Harvest Golds & Warm Earth */
+  --gold-600: #C78D20;
+  --gold-500: #E9B949;
+  --gold-400: #F4C45D;
+  --gold-200: #FCE8B3;
+  --gold-100: #FEF7E0;
+  --gold-50:  #FFFDF5;
+  
+  --earth-600: #B06D3B;
+  --earth-500: #DDA15E;
+  --earth-400: #E29578;
+  --earth-100: #F9EBE0;
+
+  /* Status Colors */
+  --status-success: #2D935C;
+  --status-success-bg: #E8F7EE;
+  --status-warning: #D97706;
+  --status-warning-bg: #FEF3C7;
+  --status-danger: #DC2626;
+  --status-danger-bg: #FEE2E2;
+  --status-info: #0284C7;
+  --status-info-bg: #E0F2FE;
+
+  /* Organic Cream & Canvas */
+  --bg-app: #FAF7F0;
+  --bg-card: #FFFFFF;
+  --bg-card-alt: #F5F1E6;
+  --bg-card-tint: #F3EFE3;
+  --border-soft: #E8E2D5;
+  --border-focus: #2D6A4F;
+
+  /* Typography Colors */
+  --text-main: #132A1F;
+  --text-secondary: #3D5A4C;
+  --text-muted: #6B8576;
+  --text-light: #8E9F94;
+  --text-inverse: #FFFFFF;
+
+  /* Typography Scale */
+  --font-family: 'Outfit', 'Plus Jakarta Sans', 'Noto Sans Devanagari', 'Noto Sans Oriya', system-ui, -apple-system, sans-serif;
+  --font-display: 'Outfit', sans-serif;
+
+  /* Radii */
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-xl: 32px;
+  --radius-pill: 9999px;
+
+  /* Organic Shadows */
+  --shadow-sm: 0 2px 6px rgba(27, 67, 50, 0.04);
+  --shadow-md: 0 6px 20px rgba(27, 67, 50, 0.07);
+  --shadow-lg: 0 12px 36px rgba(27, 67, 50, 0.10);
+  --shadow-xl: 0 20px 50px rgba(27, 67, 50, 0.13);
+  --shadow-glow: 0 0 25px rgba(82, 183, 136, 0.35);
+  --shadow-gold-glow: 0 0 25px rgba(233, 185, 73, 0.35);
+
+  /* Transitions */
+  --transition-fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-bounce: 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* ==========================================================================
+   Base & Resets
+   ========================================================================== */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  height: 100%;
+}
+
+body {
+  font-family: var(--font-family);
+  background-color: var(--bg-app);
+  color: var(--text-main);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-app);
+}
+::-webkit-scrollbar-thumb {
+  background: #D8CEBE;
+  border-radius: var(--radius-pill);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--green-600);
+}
+
+/* ==========================================================================
+   Typography Utilities
+   ========================================================================== */
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  color: var(--green-900);
+  line-height: 1.25;
+}
+
+.text-hero {
+  font-size: 2.25rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.text-title-1 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.text-title-2 {
+  font-size: 1.35rem;
+  font-weight: 700;
+}
+
+.text-title-3 {
+  font-size: 1.15rem;
+  font-weight: 600;
+}
+
+.text-body-lg {
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+.text-body {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+}
+
+.text-caption {
+  font-size: 0.825rem;
+  color: var(--text-muted);
+}
+
+.font-num {
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+}
+
+/* ==========================================================================
+   Buttons & Touch Controls
+   ========================================================================== */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 12px 24px;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-family);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all var(--transition-normal);
+  user-select: none;
+  text-decoration: none;
+  white-space: nowrap;
+  min-height: 48px;
+}
+
+.btn:active {
+  transform: scale(0.97);
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--green-800) 0%, var(--green-700) 100%);
+  color: var(--text-inverse);
+  box-shadow: 0 4px 14px rgba(27, 67, 50, 0.25);
+}
+
+.btn-primary:hover {
+  background: linear-gradient(135deg, var(--green-700) 0%, var(--green-600) 100%);
+  box-shadow: 0 6px 20px rgba(27, 67, 50, 0.35);
+  transform: translateY(-1px);
+}
+
+.btn-accent {
+  background: linear-gradient(135deg, var(--gold-500) 0%, #D8A538 100%);
+  color: var(--green-900);
+  box-shadow: 0 4px 14px rgba(233, 185, 73, 0.35);
+  font-weight: 700;
+}
+
+.btn-accent:hover {
+  background: linear-gradient(135deg, var(--gold-400) 0%, var(--gold-500) 100%);
+  box-shadow: 0 6px 22px rgba(233, 185, 73, 0.5);
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  background: var(--bg-card-alt);
+  color: var(--green-800);
+  border-color: var(--border-soft);
+}
+
+.btn-secondary:hover {
+  background: #EBE5D8;
+  border-color: #D8CEBD;
+}
+
+.btn-outline {
+  background: transparent;
+  color: var(--green-800);
+  border: 2px solid var(--green-800);
+}
+
+.btn-outline:hover {
+  background: var(--green-50);
+}
+
+.btn-danger {
+  background: var(--status-danger-bg);
+  color: var(--status-danger);
+  border-color: #FCA5A5;
+}
+
+.btn-danger:hover {
+  background: #FEE2E2;
+}
+
+.btn-sm {
+  padding: 8px 16px;
+  font-size: 0.875rem;
+  min-height: 38px;
+  border-radius: var(--radius-pill);
+}
+
+.btn-lg {
+  padding: 16px 32px;
+  font-size: 1.15rem;
+  min-height: 56px;
+  border-radius: var(--radius-pill);
+}
+
+.btn-icon-only {
+  width: 46px;
+  height: 46px;
+  padding: 0;
+  border-radius: var(--radius-pill);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ==========================================================================
+   Badges & Pills
+   ========================================================================== */
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: var(--radius-pill);
+  font-size: 0.825rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+.pill-green {
+  background: var(--green-100);
+  color: var(--green-800);
+}
+
+.pill-gold {
+  background: var(--gold-100);
+  color: var(--gold-600);
+  border: 1px solid var(--gold-200);
+}
+
+.pill-earth {
+  background: var(--earth-100);
+  color: var(--earth-600);
+}
+
+.pill-danger {
+  background: var(--status-danger-bg);
+  color: var(--status-danger);
+}
+
+.pill-info {
+  background: var(--status-info-bg);
+  color: var(--status-info);
+}
+
+/* ==========================================================================
+   Card Elements & Surfaces
+   ========================================================================== */
+
+.card {
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-soft);
+  box-shadow: var(--shadow-md);
+  padding: 24px;
+  transition: all var(--transition-normal);
+  position: relative;
+  overflow: hidden;
+}
+
+.card:hover {
+  box-shadow: var(--shadow-lg);
+  border-color: #DDD4C4;
+}
+
+.card-tinted {
+  background: var(--bg-card-alt);
+}
+
+.card-ai-glow {
+  border: 2px solid var(--green-500);
+  box-shadow: 0 8px 32px rgba(82, 183, 136, 0.22);
+  background: linear-gradient(145deg, #FFFFFF 0%, #F5FCF7 100%);
+}
+
+.card-gold-glow {
+  border: 2px solid var(--gold-500);
+  box-shadow: 0 8px 32px rgba(233, 185, 73, 0.22);
+  background: linear-gradient(145deg, #FFFFFF 0%, #FFFDF5 100%);
+}
+
+/* Micro-animations */
+@keyframes pulseSubtle {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.04); }
+}
+
+@keyframes floatGentle {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+@keyframes radarScan {
+  0% { transform: scale(0.95); opacity: 0.8; }
+  50% { transform: scale(1.25); opacity: 0; }
+  100% { transform: scale(0.95); opacity: 0; }
+}
+
+@keyframes shimmerEffect {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.pulse-badge {
+  position: relative;
+}
+.pulse-badge::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  border-radius: inherit;
+  border: 2px solid currentColor;
+  animation: radarScan 2s infinite ease-out;
+}

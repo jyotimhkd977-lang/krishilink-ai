@@ -1,0 +1,435 @@
+/* ==========================================================================
+   KrishiLink AI — Landing Page, Authentication & Consumer Portal Styles
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Landing Page Shell
+   -------------------------------------------------------------------------- */
+.landing-wrapper {
+  display: none;
+  width: 100%;
+  min-height: 100vh;
+  background-color: var(--bg-app);
+  position: relative;
+  overflow-x: hidden;
+}
+
+.landing-wrapper.active {
+  display: block;
+}
+
+/* Landing Navigation Bar */
+.landing-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 48px;
+  background: rgba(250, 247, 240, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  border-bottom: 1px solid var(--border-soft);
+}
+
+.landing-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+}
+
+.landing-brand h2 {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--green-900);
+}
+
+.landing-nav-links {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.landing-nav-links a {
+  text-decoration: none;
+  color: var(--text-secondary);
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: color var(--transition-fast);
+}
+
+.landing-nav-links a:hover {
+  color: var(--green-800);
+}
+
+.landing-nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+/* Landing Hero Section */
+.landing-hero {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 60px 32px 40px 32px;
+  text-align: center;
+  position: relative;
+}
+
+.hero-pill-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #E8F7EE;
+  border: 1px solid #A7F3D0;
+  color: var(--green-800);
+  padding: 8px 18px;
+  border-radius: var(--radius-pill);
+  font-size: 0.88rem;
+  font-weight: 700;
+  margin-bottom: 24px;
+  box-shadow: var(--shadow-sm);
+}
+
+.landing-hero h1 {
+  font-size: 3.4rem;
+  font-weight: 800;
+  color: var(--green-900);
+  line-height: 1.18;
+  letter-spacing: -0.02em;
+  margin-bottom: 20px;
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.landing-hero h1 span.highlight-gold {
+  color: #C78D20;
+  position: relative;
+  display: inline-block;
+}
+
+.landing-hero p.hero-subtitle {
+  font-size: 1.25rem;
+  color: var(--text-secondary);
+  max-width: 720px;
+  margin: 0 auto 40px auto;
+  line-height: 1.6;
+}
+
+/* Dual Portal Choice Cards */
+.portal-choice-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  max-width: 1040px;
+  margin: 0 auto 60px auto;
+  text-align: left;
+}
+
+.portal-card {
+  background: #FFFFFF;
+  border-radius: var(--radius-xl);
+  border: 2px solid var(--border-soft);
+  padding: 36px 32px;
+  box-shadow: var(--shadow-lg);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 24px;
+  transition: all var(--transition-normal);
+  position: relative;
+  overflow: hidden;
+}
+
+.portal-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-xl);
+}
+
+.portal-card.farmer-portal {
+  border-color: var(--green-600);
+  background: linear-gradient(180deg, #FFFFFF 0%, #F5FAF6 100%);
+}
+
+.portal-card.consumer-portal {
+  border-color: var(--gold-500);
+  background: linear-gradient(180deg, #FFFFFF 0%, #FFFDF5 100%);
+}
+
+.portal-card-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: var(--radius-pill);
+  font-size: 0.8rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.badge-farmer {
+  background: var(--green-100);
+  color: var(--green-800);
+}
+
+.badge-consumer {
+  background: var(--gold-100);
+  color: var(--gold-600);
+}
+
+.portal-card h3 {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: var(--green-900);
+  margin-bottom: 8px;
+}
+
+.portal-card p {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  line-height: 1.55;
+}
+
+.portal-perks-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.portal-perk-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--green-900);
+}
+
+.portal-perk-item span.icon {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #E8F7EE;
+  color: var(--green-700);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  font-weight: 800;
+}
+
+/* Impact Metrics Strip */
+.impact-metrics-section {
+  background: linear-gradient(135deg, var(--green-900) 0%, var(--green-800) 100%);
+  color: #FFFFFF;
+  padding: 48px 32px;
+  margin: 40px 0;
+}
+
+.impact-metrics-grid {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  text-align: center;
+}
+
+.impact-stat-item h3 {
+  font-size: 2.8rem;
+  font-weight: 800;
+  color: var(--gold-400);
+  line-height: 1;
+  margin-bottom: 6px;
+}
+
+.impact-stat-item p {
+  font-size: 0.95rem;
+  color: #D8F3DC;
+  font-weight: 600;
+}
+
+/* --------------------------------------------------------------------------
+   Authentication Modal
+   -------------------------------------------------------------------------- */
+.auth-modal-content {
+  max-width: 480px;
+  width: 100%;
+}
+
+.auth-role-tabs {
+  display: flex;
+  background: #EFE9DC;
+  border-radius: var(--radius-pill);
+  padding: 4px;
+  gap: 4px;
+  margin-bottom: 24px;
+}
+
+.auth-role-tab {
+  flex: 1;
+  padding: 10px 16px;
+  border-radius: var(--radius-pill);
+  border: none;
+  background: transparent;
+  font-family: var(--font-family);
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.auth-role-tab.active {
+  background: #FFFFFF;
+  color: var(--green-900);
+  box-shadow: var(--shadow-sm);
+}
+
+.auth-form-pane {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.otp-boxes-grid {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin: 12px 0;
+}
+
+.otp-box {
+  width: 54px;
+  height: 58px;
+  border-radius: var(--radius-md);
+  border: 2px solid var(--border-soft);
+  text-align: center;
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: var(--green-900);
+  background: #FFFFFF;
+  transition: border-color var(--transition-fast);
+}
+
+.otp-box:focus {
+  outline: none;
+  border-color: var(--green-700);
+  box-shadow: 0 0 0 4px rgba(45, 106, 79, 0.12);
+}
+
+.quick-demo-login-box {
+  background: var(--bg-card-alt);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  border: 1px dashed var(--border-soft);
+  margin-top: 8px;
+}
+
+.quick-demo-login-box span.caption {
+  display: block;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+/* --------------------------------------------------------------------------
+   Consumer Marketplace Portal Styles
+   -------------------------------------------------------------------------- */
+.consumer-header-banner {
+  background: linear-gradient(135deg, #2D6A4F 0%, #1B4332 100%);
+  border-radius: var(--radius-xl);
+  padding: 36px 40px;
+  color: #FFFFFF;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 28px;
+  box-shadow: var(--shadow-lg);
+}
+
+.consumer-produce-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 24px;
+}
+
+.consumer-produce-card {
+  background: #FFFFFF;
+  border-radius: var(--radius-lg);
+  border: 1.5px solid var(--border-soft);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: all var(--transition-normal);
+}
+
+.consumer-produce-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--green-600);
+}
+
+.consumer-farmer-provenance {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background: var(--bg-card-alt);
+  border-radius: var(--radius-sm);
+  font-size: 0.85rem;
+  color: var(--green-900);
+  font-weight: 600;
+}
+
+.consumer-cart-drawer {
+  position: fixed;
+  top: 0; right: 0; bottom: 0;
+  width: 420px;
+  max-width: 90vw;
+  background: #FFFFFF;
+  box-shadow: -6px 0 30px rgba(0,0,0,0.15);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  transform: translateX(100%);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.consumer-cart-drawer.active {
+  transform: translateX(0);
+}
+
+@media (max-width: 820px) {
+  .landing-nav {
+    padding: 16px 20px;
+  }
+  .landing-nav-links {
+    display: none;
+  }
+  .landing-hero h1 {
+    font-size: 2.2rem;
+  }
+  .portal-choice-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  .impact-metrics-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+}
