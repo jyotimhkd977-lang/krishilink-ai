@@ -196,7 +196,7 @@ class KrishiApp {
     container.innerHTML = data.map(crop => {
       const name = window.KrishiI18n.currentLang === 'hi' ? crop.hindi : (window.KrishiI18n.currentLang === 'or' ? crop.odia : crop.name);
       return `
-        <div class="ticker-item" onclick="KrishiApp.showCropPriceIntel('${crop.id}')">
+        <div class="ticker-item" onclick="window.KrishiApp.switchView('price-intel')">
           <div class="ticker-crop-info">
             <img src="${crop.img}" alt="${name}" class="crop-mini-thumb"/>
             <div>
@@ -436,7 +436,7 @@ class KrishiApp {
               <p style="font-size:0.88rem">Grade A quality confirmed by Collection Hub sensor. Payment released into your settlement account.</p>
             </div>
           </div>
-          <button class="btn btn-primary btn-sm" onclick="KrishiApp.switchView('earnings')">View Earnings</button>
+          <button class="btn btn-primary btn-sm" onclick="window.KrishiApp.switchView('earnings')">View Earnings</button>
         `;
       }
     }

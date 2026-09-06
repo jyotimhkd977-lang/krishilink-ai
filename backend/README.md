@@ -187,6 +187,8 @@ Notification types are `ORDER`, `PAYMENT`, `BUYER`, `AI_ALERT`, `LOGISTICS`, `WE
 
 Subscribe to `postgres_changes` on `notifications` with a filter for `user_id=eq.<current-user-id>`. RLS prevents cross-user reads, updates, and Realtime delivery.
 
+Apply `supabase/migrations/011_registration_profiles.sql` after notifications for the complete farmer and buyer registration fields.
+
 ## Payments and Settlements
 
 Apply `supabase/migrations/008_payments_settlements.sql` after the quality/dispute migration. It creates `payments` and `settlements` without storing card details, UPI credentials, bank credentials, or payment-provider secrets.

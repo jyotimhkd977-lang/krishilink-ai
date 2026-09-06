@@ -69,16 +69,34 @@ class AuthService:
         return self.client
 
     def _set_server_role(self, user_id: str, role: Role) -> None:
-        if not self.settings.supabase_service_role_key:
-            if role != Role.farmer:
-                raise AuthServiceError("Server role assignment is not configured")
-            return
+        try:
+            if self.settings.supabase_service_role_key:
+                admin_client = create_client(self.settings.supabase_url, self.settings.supabase_service_role_key)
+                admin_client.auth.admin.update_user_by_id(
+                    user_id,
+                    {"app_metadata": {"role": role.value}},
+                )
+                return
+        except Exception as exc:
+            logger.warning("admin_client_role_update_failed", extra={"reason": type(exc).__name__})
 
-        admin_client = create_client(self.settings.supabase_url, self.settings.supabase_service_role_key)
-        admin_client.auth.admin.update_user_by_id(
-            user_id,
-            {"app_metadata": {"role": role.value}},
-        )
+        if self.settings.database_url:
+            try:
+                import json
+                import psycopg
+                with psycopg.connect(self.settings.database_url) as conn:
+                    with conn.cursor() as cur:
+                        cur.execute(
+                            "UPDATE auth.users SET raw_app_meta_data = coalesce(raw_app_meta_data, '{}'::jsonb) || %s::jsonb WHERE id = %s",
+                            [json.dumps({"role": role.value}), user_id],
+                        )
+                    conn.commit()
+                return
+            except Exception as db_exc:
+                logger.warning("direct_db_role_update_failed", extra={"reason": str(db_exc)})
+
+        if role != Role.farmer:
+            raise AuthServiceError("Server role assignment is not configured")
 
     def register(
         self,
@@ -99,8 +117,30 @@ class AuthService:
             )
             session = _value(response, "session")
             user = _value(response, "user")
-            if user is not None:
-                self._set_server_role(_value(user, "id"), role)
+            user_id = _value(user, "id") if user else None
+            if user_id:
+                self._set_server_role(user_id, role)
+                if not self.settings.require_email_verification and self.settings.database_url:
+                    try:
+                        import psycopg
+                        with psycopg.connect(self.settings.database_url) as conn:
+                            with conn.cursor() as cur:
+                                cur.execute(
+                                    "UPDATE auth.users SET email_confirmed_at = timezone('utc', now()), confirmed_at = timezone('utc', now()) WHERE id = %s",
+                                    [user_id],
+                                )
+                            conn.commit()
+                    except Exception as db_err:
+                        logger.warning("auto_confirm_email_failed", extra={"reason": str(db_err)})
+
+            if session is None and not self.settings.require_email_verification:
+                try:
+                    login_res = self._get_client().auth.sign_in_with_password({"email": email, "password": password})
+                    session = _value(login_res, "session")
+                    user = _value(login_res, "user") or user
+                except Exception:
+                    pass
+
             return {
                 "access_token": _value(session, "access_token"),
                 "expires_in": _value(session, "expires_in"),
@@ -172,4 +212,31 @@ class AuthService:
                 raise AuthServiceError
         except (httpx.HTTPError, AuthServiceError) as exc:
             logger.warning("Supabase Auth request failed", extra={"operation": path})
+            raise AuthServiceError from exc
+
+    def send_phone_otp(self, phone: str) -> None:
+        try:
+            self._get_client().auth.sign_in_with_otp({
+                "phone": phone,
+                "options": {"data": {"role": Role.farmer.value}},
+            })
+        except Exception as exc:
+            logger.warning("phone_otp_send_failed", extra={"reason": type(exc).__name__})
+            raise AuthServiceError from exc
+
+    def verify_phone_otp(self, phone: str, token: str) -> dict[str, Any]:
+        try:
+            response = self._get_client().auth.verify_otp({"phone": phone, "token": token, "type": "sms"})
+            session = _value(response, "session")
+            user = _value(response, "user")
+            if user is None or session is None:
+                raise AuthServiceError
+            self._set_server_role(_value(user, "id"), Role.farmer)
+            return {
+                "access_token": _value(session, "access_token"),
+                "expires_in": _value(session, "expires_in"),
+                "user": _user_response(user, Role.farmer),
+            }
+        except Exception as exc:
+            logger.warning("phone_otp_verification_failed", extra={"reason": type(exc).__name__})
             raise AuthServiceError from exc

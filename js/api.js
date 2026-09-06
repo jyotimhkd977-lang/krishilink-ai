@@ -71,8 +71,34 @@ class KrishiApiClient {
     return this.setSession(response);
   }
 
+  async sendPhoneOtp(phone) {
+    return this.request('/auth/phone/send-otp', {
+      method: 'POST',
+      body: JSON.stringify({ phone })
+    });
+  }
+
+  async verifyPhoneOtp(phone, token) {
+    const response = await this.request('/auth/phone/verify-otp', {
+      method: 'POST',
+      body: JSON.stringify({ phone, token })
+    });
+    return this.setSession(response);
+  }
+
   async currentUser() {
     return this.request('/auth/me');
+  }
+
+  async getMyProfile() {
+    return this.request('/auth/profiles/me');
+  }
+
+  async updateMyProfile(profile) {
+    return this.request('/auth/profiles/me', {
+      method: 'PATCH',
+      body: JSON.stringify(profile)
+    });
   }
 
   async logout() {
@@ -90,9 +116,6 @@ class KrishiApiClient {
     });
   }
 
-  async getMyProfile() {
-    return this.request('/auth/profiles/me');
-  }
 }
 
 window.KrishiApi = new KrishiApiClient();

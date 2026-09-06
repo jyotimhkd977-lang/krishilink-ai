@@ -45,6 +45,8 @@ app.include_router(api_router, prefix="/api/v1")
 @app.on_event("startup")
 async def on_startup() -> None:
     logger.info("KrishiLink AI API started", extra={"environment": settings.environment})
+    if not settings.supabase_url or not settings.supabase_anon_key:
+        logger.warning("supabase_auth_not_configured")
 
 
 @app.on_event("shutdown")

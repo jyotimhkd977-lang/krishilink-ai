@@ -38,6 +38,14 @@ class LoginRequest(BaseModel):
     password: str = Field(min_length=1, max_length=128)
 
 
+class PhoneOtpRequest(BaseModel):
+    phone: str = Field(pattern=r"^\+?[1-9]\d{7,14}$")
+
+
+class PhoneOtpVerifyRequest(PhoneOtpRequest):
+    token: str = Field(min_length=4, max_length=8)
+
+
 class ForgotPasswordRequest(BaseModel):
     email: EmailStr
 

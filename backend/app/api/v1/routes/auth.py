@@ -14,6 +14,8 @@ from app.schemas.auth import (
     MessageResponse,
     RegisterRequest,
     ResetPasswordRequest,
+    PhoneOtpRequest,
+    PhoneOtpVerifyRequest,
     Role,
     UserResponse,
 )
@@ -51,7 +53,7 @@ async def register(payload: RegisterRequest, service: AuthService = Depends(get_
         profile = payload.farmer_profile if payload.role.value == "farmer" else payload.buyer_profile
         return AuthResponse(**service.register(payload.email, payload.password, payload.role, profile.model_dump() if profile else None))
     except AuthServiceError:
-        raise _auth_failure()
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Registration could not be completed. Please check your details and try again.")
 
 
 @router.post("/login", response_model=AuthResponse)
@@ -59,6 +61,23 @@ async def login(request: Request, payload: LoginRequest, service: AuthService = 
     client_ip = request.client.host if request.client else "unknown"
     try:
         return AuthResponse(**service.login(payload.email, payload.password, client_ip))
+    except AuthServiceError:
+        raise _auth_failure()
+
+
+@router.post("/phone/send-otp", response_model=MessageResponse)
+async def send_phone_otp(payload: PhoneOtpRequest, service: AuthService = Depends(get_auth_service)) -> MessageResponse:
+    try:
+        service.send_phone_otp(payload.phone)
+        return MessageResponse(message="OTP sent")
+    except AuthServiceError:
+        raise _auth_failure()
+
+
+@router.post("/phone/verify-otp", response_model=AuthResponse)
+async def verify_phone_otp(payload: PhoneOtpVerifyRequest, service: AuthService = Depends(get_auth_service)) -> AuthResponse:
+    try:
+        return AuthResponse(**service.verify_phone_otp(payload.phone, payload.token))
     except AuthServiceError:
         raise _auth_failure()
 
