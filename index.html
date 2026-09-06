@@ -1792,6 +1792,24 @@
         Farmer & FPO Login: Access AI crop pricing, orders & instant payments
       </p>
 
+      <!-- Supabase email/password authentication -->
+      <div class="auth-form-pane" id="auth-email-pane">
+        <div class="farmer-form-group">
+          <label class="farmer-form-label" for="auth-email-input">Email address</label>
+          <input type="email" id="auth-email-input" class="farmer-input" placeholder="you@example.com" autocomplete="email"/>
+        </div>
+        <div class="farmer-form-group">
+          <label class="farmer-form-label" for="auth-password-input">Password</label>
+          <input type="password" id="auth-password-input" class="farmer-input" placeholder="At least 8 characters" autocomplete="current-password"/>
+        </div>
+        <div style="display:flex; gap:10px;">
+          <button class="btn btn-primary btn-sm" id="btn-backend-login" style="flex:1;">Sign In</button>
+          <button class="btn btn-accent btn-sm" id="btn-backend-register" style="flex:1;">Create Account</button>
+        </div>
+        <button class="btn btn-outline btn-sm" id="btn-forgot-password" style="width:100%; margin-top:10px;">Send Password Reset Email</button>
+        <p id="auth-api-status" role="status" style="min-height:20px; margin-top:10px; font-size:0.8rem; text-align:center;"></p>
+      </div>
+
       <!-- Phone Number Input Pane -->
       <div class="auth-form-pane" id="auth-phone-pane">
         <div class="farmer-form-group">
@@ -1884,6 +1902,7 @@
 <script src="js/ai-assistant.js"></script>
 <script src="js/auth.js"></script>
 <script src="js/consumer.js"></script>
+<script src="js/api.js"></script>
 <script src="js/app.js"></script>
 
 </body>

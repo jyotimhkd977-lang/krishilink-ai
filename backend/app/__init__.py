@@ -1,0 +1,1 @@
+"""KrishiLink AI backend application package."""

@@ -24,6 +24,7 @@ class AuthManager {
 
     this.bindEvents();
     this.updateAuthStateUI();
+    this.restoreBackendSession();
   }
 
   bindEvents() {
@@ -89,6 +90,15 @@ class AuthManager {
     document.querySelectorAll('.btn-switch-portal').forEach(btn => {
       btn.addEventListener('click', () => this.switchPortal());
     });
+
+    const btnBackendLogin = document.getElementById('btn-backend-login');
+    if (btnBackendLogin) btnBackendLogin.addEventListener('click', () => this.loginWithBackend());
+
+    const btnBackendRegister = document.getElementById('btn-backend-register');
+    if (btnBackendRegister) btnBackendRegister.addEventListener('click', () => this.registerWithBackend());
+
+    const btnForgotPassword = document.getElementById('btn-forgot-password');
+    if (btnForgotPassword) btnForgotPassword.addEventListener('click', () => this.requestPasswordReset());
   }
 
   openAuthModal(defaultRole = 'farmer') {
@@ -102,6 +112,104 @@ class AuthManager {
     const modal = document.getElementById('auth-modal');
     if (modal) modal.classList.remove('active');
     window.KrishiAudio.playClick();
+  }
+
+  getBackendCredentials() {
+    return {
+      email: document.getElementById('auth-email-input')?.value.trim() || '',
+      password: document.getElementById('auth-password-input')?.value || ''
+    };
+  }
+
+  setBackendStatus(message, isError = false) {
+    const status = document.getElementById('auth-api-status');
+    if (status) {
+      status.textContent = message;
+      status.style.color = isError ? 'var(--status-danger)' : 'var(--green-700)';
+    }
+  }
+
+  async loginWithBackend() {
+    const { email, password } = this.getBackendCredentials();
+    if (!email || !password) {
+      this.setBackendStatus('Enter your email and password.', true);
+      return;
+    }
+
+    try {
+      this.setBackendStatus('Signing in...');
+      const response = await window.KrishiApi.login(email, password, this.currentRoleTab);
+      this.currentUser = this.mapBackendUser(response.user, email);
+      this.saveSession();
+      this.closeAuthModal();
+      this.updateAuthStateUI();
+      this.setBackendStatus('');
+    } catch (error) {
+      this.setBackendStatus(error.message, true);
+    }
+  }
+
+  async registerWithBackend() {
+    const { email, password } = this.getBackendCredentials();
+    if (!email || password.length < 8) {
+      this.setBackendStatus('Use an email and a password with at least 8 characters.', true);
+      return;
+    }
+
+    const role = this.currentRoleTab === 'consumer' ? 'buyer' : 'farmer';
+    try {
+      this.setBackendStatus('Creating your account...');
+      const response = await window.KrishiApi.register({ email, password, role });
+      if (!response.access_token) {
+        this.setBackendStatus('Account created. Check your email to verify it, then sign in.');
+        return;
+      }
+      this.currentUser = this.mapBackendUser(response.user, email);
+      this.saveSession();
+      this.closeAuthModal();
+      this.updateAuthStateUI();
+    } catch (error) {
+      this.setBackendStatus(error.message, true);
+    }
+  }
+
+  async requestPasswordReset() {
+    const { email } = this.getBackendCredentials();
+    if (!email) {
+      this.setBackendStatus('Enter your email first.', true);
+      return;
+    }
+    try {
+      const response = await window.KrishiApi.forgotPassword(email);
+      this.setBackendStatus(response.message);
+    } catch (error) {
+      this.setBackendStatus(error.message, true);
+    }
+  }
+
+  async restoreBackendSession() {
+    if (!window.KrishiApi.accessToken) return;
+    try {
+      const user = await window.KrishiApi.currentUser();
+      this.currentUser = this.mapBackendUser(user, user.email);
+      this.saveSession();
+      this.updateAuthStateUI();
+    } catch (error) {
+      window.KrishiApi.clearSession();
+      localStorage.removeItem('krishilink_auth_user');
+    }
+  }
+
+  mapBackendUser(user, fallbackEmail) {
+    const role = user?.role || 'farmer';
+    return {
+      id: user?.id,
+      email: user?.email || fallbackEmail,
+      role: role === 'buyer' ? 'consumer' : role,
+      name: user?.email || fallbackEmail,
+      location: 'India',
+      avatar: 'assets/images/ramesh.jpg'
+    };
   }
 
   switchRoleTab(role) {
@@ -215,8 +323,13 @@ class AuthManager {
     this.updateAuthStateUI();
   }
 
-  logout() {
+  async logout() {
     window.KrishiAudio.playClick();
+    try {
+      await window.KrishiApi.logout();
+    } catch (error) {
+      console.warn('Backend logout failed; clearing local session.', error);
+    }
     this.currentUser = null;
     localStorage.removeItem('krishilink_auth_user');
     this.updateAuthStateUI();

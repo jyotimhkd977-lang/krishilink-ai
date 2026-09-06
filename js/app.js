@@ -21,6 +21,7 @@ class KrishiApp {
     this.bindLanguageSwitcher();
     this.bindActionModals();
     this.renderAllViews();
+    this.connectBackend();
 
     // Set saved or default language
     const savedLang = localStorage.getItem('krishilink_lang') || 'en';
@@ -30,6 +31,17 @@ class KrishiApp {
     window.addEventListener('languageChanged', () => {
       this.renderAllViews();
     });
+  }
+
+  async connectBackend() {
+    if (!window.KrishiApi) return;
+
+    try {
+      const health = await window.KrishiApi.checkHealth();
+      console.info(`KrishiLink AI backend connected (${health.service})`);
+    } catch (error) {
+      console.warn('KrishiLink AI backend is unavailable; using local demo data.', error);
+    }
   }
 
   bindNavigation() {
