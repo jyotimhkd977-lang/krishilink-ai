@@ -14,6 +14,8 @@ from app.schemas.auth import (
     MessageResponse,
     RegisterRequest,
     ResetPasswordRequest,
+    EmailOtpRequest,
+    EmailOtpVerifyRequest,
     PhoneOtpRequest,
     PhoneOtpVerifyRequest,
     Role,
@@ -63,6 +65,23 @@ async def login(request: Request, payload: LoginRequest, service: AuthService = 
         return AuthResponse(**service.login(payload.email, payload.password, client_ip))
     except AuthServiceError:
         raise _auth_failure()
+
+
+@router.post("/email/send-otp", response_model=MessageResponse)
+async def send_email_otp(payload: EmailOtpRequest, service: AuthService = Depends(get_auth_service)) -> MessageResponse:
+    try:
+        service.send_email_otp(payload.email, payload.role)
+        return MessageResponse(message="Verification code sent to your email address.")
+    except AuthServiceError as exc:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(exc))
+
+
+@router.post("/email/verify-otp", response_model=AuthResponse)
+async def verify_email_otp(payload: EmailOtpVerifyRequest, service: AuthService = Depends(get_auth_service)) -> AuthResponse:
+    try:
+        return AuthResponse(**service.verify_email_otp(payload.email, payload.token, payload.role))
+    except AuthServiceError as exc:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(exc))
 
 
 @router.post("/phone/send-otp", response_model=MessageResponse)

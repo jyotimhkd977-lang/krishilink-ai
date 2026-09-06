@@ -42,11 +42,17 @@ register_exception_handlers(app)
 app.include_router(api_router, prefix="/api/v1")
 
 
+from app.db.init_db import init_db
+
+
 @app.on_event("startup")
 async def on_startup() -> None:
     logger.info("KrishiLink AI API started", extra={"environment": settings.environment})
-    if not settings.supabase_url or not settings.supabase_anon_key:
-        logger.warning("supabase_auth_not_configured")
+    try:
+        init_db()
+        logger.info("SQLite database initialized and seeded successfully")
+    except Exception as exc:
+        logger.error(f"Failed to initialize SQLite database: {exc}")
 
 
 @app.on_event("shutdown")

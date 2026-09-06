@@ -39,8 +39,125 @@ class KrishiApp {
     try {
       const health = await window.KrishiApi.checkHealth();
       console.info(`KrishiLink AI backend connected (${health.service})`);
+      await this.loadBackendData();
     } catch (error) {
       console.warn('KrishiLink AI backend is unavailable; using local demo data.', error);
+    }
+  }
+
+  async loadBackendData() {
+    if (!window.KrishiApi) return;
+
+    try {
+      // 1. Fetch live produce listings from SQLite
+      const listings = await window.KrishiApi.getProduceListings();
+      if (Array.isArray(listings) && listings.length > 0) {
+        window.KrishiData.myProduce = listings.map(l => ({
+          id: l.id,
+          name: l.crop,
+          cropKey: (l.crop || '').toLowerCase().includes('tomato') ? 'tomato' : ((l.crop || '').toLowerCase().includes('potato') ? 'potato' : 'wheat'),
+          availableKg: l.quantity,
+          harvestDate: l.harvest_date || 'Sep 8',
+          qualityGrade: l.quality_grade || 'Grade A',
+          aiQualityScore: l.ai_quality_score || 92,
+          freshnessScore: l.freshness_score || 95,
+          uniformityScore: l.uniformity_score || 90,
+          damagePercent: l.damage_percent || 3,
+          aiPriceMin: l.ai_price_min || (l.expected_price - 2),
+          aiPriceMax: l.ai_price_max || (l.expected_price + 2),
+          status: l.status === 'active' ? 'Active' : l.status,
+          img: l.image_url || 'assets/images/tomato.jpg',
+          buyerInterest: 'Active AI Match',
+          tags: ['AI Quality Certified', 'Direct Farm Listing']
+        }));
+      }
+
+      // 2. Fetch live orders from SQLite
+      const orders = await window.KrishiApi.getOrders();
+      if (Array.isArray(orders) && orders.length > 0) {
+        window.KrishiData.orders = orders.map(o => {
+          const item = (o.items && o.items[0]) || {};
+          let step = 1;
+          if (o.status === 'confirmed') step = 1;
+          else if (o.status === 'pickup_scheduled') step = 2;
+          else if (o.status === 'in_transit') step = 4;
+          else if (o.status === 'delivered') step = 5;
+          else if (o.status === 'completed') step = 6;
+
+          return {
+            id: o.id,
+            crop: item.crop || 'Produce Lot',
+            cropImg: 'assets/images/tomato.jpg',
+            quantityKg: item.quantity || Math.round(o.total_amount / (item.unit_price || 32)),
+            buyer: 'ABC Foods India Ltd.',
+            unitPrice: item.unit_price || 32.0,
+            totalAmount: o.total_amount,
+            statusStep: step,
+            statusText: `Order ${o.status.replace('_', ' ').toUpperCase()}`,
+            vehicleNo: 'OD-02-KL-9081',
+            driverName: 'Santosh Das',
+            driverPhone: '+91 94371 90234',
+            pickupETA: 'Today 11:30 AM',
+            pickupDate: 'Today',
+            routeSavings: { distanceSavedKm: 14, fuelSavingsInr: 350, co2SavedKg: 10 }
+          };
+        });
+      }
+
+      // 3. Fetch buyer demands from SQLite
+      const demands = await window.KrishiApi.getDemands();
+      if (Array.isArray(demands) && demands.length > 0) {
+        window.KrishiData.buyers = demands.map((d, idx) => ({
+          id: d.id,
+          name: d.crop ? `ABC Foods (${d.crop})` : `Verified Buyer #${idx + 1}`,
+          location: d.location || 'Bhubaneswar',
+          distanceKm: 14,
+          requiredKg: d.quantity,
+          offerPrice: d.target_price,
+          aiMatchScore: 94,
+          badges: ['Prompt Payment', 'FSSAI Certified', 'Doorstep Pickup']
+        }));
+      }
+
+      // 4. Fetch notifications from SQLite
+      const notifs = await window.KrishiApi.getNotifications();
+      if (Array.isArray(notifs) && notifs.length > 0) {
+        window.KrishiData.notifications = notifs.map(n => ({
+          id: n.id,
+          title: n.title,
+          time: 'Just now',
+          desc: n.body,
+          icon: n.type === 'ORDER' ? '📦' : (n.type === 'PAYMENT' ? '💰' : (n.type === 'LOGISTICS' ? '🚚' : '🔔')),
+          unread: !n.read_at
+        }));
+      }
+
+      // 5. Fetch user profile from SQLite if authenticated
+      if (window.KrishiApi.accessToken) {
+        try {
+          const profile = await window.KrishiApi.getMyProfile();
+          if (profile?.farmer_profile) {
+            const fp = profile.farmer_profile;
+            if (window.KrishiData.farmer) {
+              window.KrishiData.farmer.name = fp.full_name || window.KrishiData.farmer.name;
+              window.KrishiData.farmer.location = `${fp.district || 'Khordha'}, ${fp.state || 'Odisha'}`;
+              window.KrishiData.farmer.farmSize = `${fp.farm_size || 4.5} ${fp.farm_unit || 'Acres'}`;
+              window.KrishiData.farmer.trustScore = fp.trust_score || 94.5;
+              if (fp.primary_crops && fp.primary_crops.length > 0) {
+                window.KrishiData.farmer.crops = fp.primary_crops;
+              }
+            }
+          }
+        } catch (pe) {
+          // Keep current profile
+        }
+      }
+
+      // Re-render views with live SQLite data
+      this.renderAllViews();
+      if (window.KrishiConsumer) window.KrishiConsumer.renderStore();
+    } catch (err) {
+      console.warn('Backend data load fallback:', err);
     }
   }
 

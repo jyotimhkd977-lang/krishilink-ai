@@ -46,6 +46,17 @@ class PhoneOtpVerifyRequest(PhoneOtpRequest):
     token: str = Field(min_length=4, max_length=8)
 
 
+class EmailOtpRequest(BaseModel):
+    email: EmailStr
+    role: Role = Role.farmer
+
+
+class EmailOtpVerifyRequest(BaseModel):
+    email: EmailStr
+    token: str = Field(min_length=4, max_length=8)
+    role: Role = Role.farmer
+
+
 class ForgotPasswordRequest(BaseModel):
     email: EmailStr
 

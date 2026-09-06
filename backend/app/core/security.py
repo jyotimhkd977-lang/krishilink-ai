@@ -1,6 +1,10 @@
-"""JWT validation and role authorization dependencies."""
+"""JWT generation, validation, password hashing, and role authorization dependencies."""
 
+from datetime import datetime, timedelta, timezone
 from functools import lru_cache
+import hashlib
+import hmac
+import secrets
 from typing import Any, Callable
 
 import jwt
@@ -15,45 +19,62 @@ bearer_scheme = HTTPBearer(auto_error=False)
 GENERIC_AUTH_ERROR = "Authentication failed"
 
 
-class TokenValidator:
-    def __init__(self) -> None:
-        settings = get_settings()
-        self.issuer = f"{settings.supabase_url.rstrip('/')}/auth/v1" if settings.supabase_url else ""
-        self.audience = settings.supabase_jwt_audience
-        self.jwt_secret = settings.supabase_jwt_secret
-        self.jwks_url = settings.supabase_jwks_url or (
-            f"{settings.supabase_url.rstrip('/')}/auth/v1/.well-known/jwks.json"
-            if settings.supabase_url
-            else ""
+def hash_password(password: str) -> str:
+    """Hash password using PBKDF2 with SHA-256 and cryptographic salt."""
+    salt = secrets.token_bytes(16)
+    dk = hashlib.pbkdf2_hmac("sha256", password.encode("utf-8"), salt, 100_000)
+    return f"{salt.hex()}:{dk.hex()}"
+
+
+def verify_password(plain_password: str, hashed_password: str) -> bool:
+    """Verify password against salt:hash string."""
+    try:
+        if not hashed_password or ":" not in hashed_password:
+            return False
+        salt_hex, hash_hex = hashed_password.split(":", 1)
+        salt = bytes.fromhex(salt_hex)
+        expected = bytes.fromhex(hash_hex)
+        dk = hashlib.pbkdf2_hmac("sha256", plain_password.encode("utf-8"), salt, 100_000)
+        return hmac.compare_digest(dk, expected)
+    except Exception:
+        return False
+
+
+def create_access_token(data: dict[str, Any], expires_delta: timedelta | None = None) -> str:
+    """Generate a signed JWT access token."""
+    settings = get_settings()
+    to_encode = data.copy()
+    now = datetime.now(timezone.utc)
+    if expires_delta:
+        expire = now + expires_delta
+    else:
+        expire = now + timedelta(minutes=settings.jwt_expires_minutes)
+    to_encode.update({"exp": expire, "iat": now})
+    return jwt.encode(to_encode, settings.jwt_secret_key, algorithm=settings.jwt_algorithm)
+
+
+def decode_access_token(token: str) -> dict[str, Any]:
+    """Decode and validate a signed JWT token."""
+    settings = get_settings()
+    try:
+        claims = jwt.decode(
+            token,
+            settings.jwt_secret_key,
+            algorithms=[settings.jwt_algorithm],
+            options={"verify_exp": True},
         )
-        self.jwks_client = jwt.PyJWKClient(self.jwks_url) if self.jwks_url else None
+        if not claims.get("sub"):
+            raise InvalidTokenError("JWT subject is missing")
+        return claims
+    except Exception:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail=GENERIC_AUTH_ERROR)
+
+
+class TokenValidator:
+    """Token validator for checking JWT claims."""
 
     def decode(self, token: str) -> dict[str, Any]:
-        try:
-            unverified_header = jwt.get_unverified_header(token)
-            algorithm = unverified_header.get("alg")
-
-            if algorithm == "HS256" and self.jwt_secret:
-                key = self.jwt_secret
-            elif self.jwks_client:
-                key = self.jwks_client.get_signing_key_from_jwt(token).key
-            else:
-                raise InvalidTokenError("JWT validation is not configured")
-
-            options = {"verify_exp": True, "verify_aud": bool(self.audience)}
-            claims = jwt.decode(
-                token,
-                key,
-                algorithms=[algorithm] if algorithm in {"HS256", "RS256", "ES256"} else [],
-                audience=self.audience or None,
-                issuer=self.issuer or None,
-                options=options,
-            )
-            if not claims.get("sub"):
-                raise InvalidTokenError("JWT subject is missing")
-            return claims
-        except Exception:
-            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail=GENERIC_AUTH_ERROR)
+        return decode_access_token(token)
 
 
 @lru_cache
@@ -68,8 +89,7 @@ async def get_current_user(
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail=GENERIC_AUTH_ERROR)
 
     claims = get_token_validator().decode(credentials.credentials)
-    app_metadata = claims.get("app_metadata") or {}
-    role_value = app_metadata.get("role")
+    role_value = claims.get("role") or (claims.get("app_metadata") or {}).get("role", Role.farmer.value)
 
     try:
         role = Role(role_value)
@@ -77,7 +97,7 @@ async def get_current_user(
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail=GENERIC_AUTH_ERROR)
 
     return UserResponse(
-        id=claims["sub"],
+        id=str(claims["sub"]),
         email=claims.get("email"),
         role=role,
     )

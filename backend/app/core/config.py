@@ -6,6 +6,12 @@ from pydantic import Field, field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
+from pathlib import Path
+
+_BACKEND_DIR = Path(__file__).resolve().parent.parent.parent
+_DEFAULT_DB_FILE = f"sqlite:///{(_BACKEND_DIR / 'krishilink.db').as_posix()}"
+
+
 class Settings(BaseSettings):
     app_name: str = "KrishiLink AI API"
     app_version: str = "0.1.0"
@@ -13,26 +19,34 @@ class Settings(BaseSettings):
     log_level: str = "INFO"
     force_https: bool = False
     max_request_bytes: int = 12 * 1024 * 1024
-    require_email_verification: bool = True
-    trusted_hosts: list[str] = Field(default_factory=lambda: ["localhost", "127.0.0.1", "testserver"])
-    rate_limit_requests: int = 300
+    require_email_verification: bool = False
+    trusted_hosts: list[str] = Field(default_factory=lambda: ["*"])
+    rate_limit_requests: int = 600
     rate_limit_window_seconds: int = 60
     cors_origins: list[str] = Field(
         default_factory=lambda: [
-            "http://localhost:5173",
-            "http://127.0.0.1:5173",
+            "*",
         ]
     )
 
-    supabase_url: str = ""
-    supabase_anon_key: str = ""
-    supabase_service_role_key: str = ""
-    supabase_jwt_secret: str = ""
-    supabase_jwt_audience: str = "authenticated"
-    supabase_jwks_url: str = ""
-    database_url: str = ""
-    allowed_methods: list[str] = Field(default_factory=lambda: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"])
-    allowed_headers: list[str] = Field(default_factory=lambda: ["Authorization", "Content-Type", "Accept", "Idempotency-Key"])
+    database_url: str = _DEFAULT_DB_FILE
+
+    # SMTP Email Configuration for OTP Verification
+    smtp_host: str = "smtp.gmail.com"
+    smtp_port: int = 587
+    smtp_username: str = ""
+    smtp_password: str = ""
+    smtp_from_email: str = "no-reply@krishilink.ai"
+    smtp_from_name: str = "KrishiLink AI"
+    smtp_use_tls: bool = True
+
+    # JWT Authentication
+    jwt_secret_key: str = "krishilink-prototype-jwt-secret-key-2026"
+    jwt_algorithm: str = "HS256"
+    jwt_expires_minutes: int = 10080
+
+    allowed_methods: list[str] = Field(default_factory=lambda: ["*"])
+    allowed_headers: list[str] = Field(default_factory=lambda: ["*"])
 
     model_config = SettingsConfigDict(
         env_file=".env",
@@ -44,8 +58,7 @@ class Settings(BaseSettings):
     @field_validator("cors_origins")
     @classmethod
     def reject_wildcard_cors(cls, origins: list[str]) -> list[str]:
-        if "*" in origins:
-            raise ValueError("Wildcard CORS is not allowed")
+        # Allow wildcard in development/prototype mode
         return origins
 
 

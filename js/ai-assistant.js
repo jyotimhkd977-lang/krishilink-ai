@@ -140,17 +140,33 @@ class KrishiAiAssistant {
     if (micBtn) micBtn.style.background = '';
   }
 
-  askQuestion(text) {
+  async askQuestion(text) {
     this.addUserMessage(text);
-    window.KrishiAudio.playClick();
+    window.KrishiAudio?.playClick();
 
-    // Generate intelligent AI response based on agricultural query and selected language
+    const lang = window.KrishiI18n?.currentLang || "en";
+    let reply = "";
+
+    try {
+      if (window.KrishiApi) {
+        const res = await window.KrishiApi.chatAi(text, lang, "Tomato");
+        if (res && res.response) {
+          reply = res.response;
+        }
+      }
+    } catch (err) {
+      console.warn("Backend AI chat fallback:", err);
+    }
+
+    if (!reply) {
+      reply = this.generateAiResponse(text);
+    }
+
     setTimeout(() => {
-      const reply = this.generateAiResponse(text);
       this.addBotMessage(reply);
       this.speakText(reply);
-      window.KrishiAudio.playSuccess();
-    }, 800);
+      window.KrishiAudio?.playSuccess();
+    }, 400);
   }
 
   generateAiResponse(query) {

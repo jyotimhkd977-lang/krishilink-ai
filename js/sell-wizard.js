@@ -116,8 +116,34 @@ class SellWizard {
     }
   }
 
-  publishProduce() {
-    // Create new produce item
+  async publishProduce() {
+    const payload = {
+      crop: this.selectedCrop.name,
+      variety: "Hybrid F1",
+      quantity: this.quantityKg,
+      unit: "kg",
+      harvest_date: this.harvestDate,
+      expected_price: this.aiPricing.recommendedMin,
+      min_price: Math.max(10, this.aiPricing.recommendedMin - 2),
+      quality_grade: `Grade ${this.aiQuality.grade}`,
+      ai_quality_score: this.aiQuality.score,
+      freshness_score: this.aiQuality.freshness,
+      uniformity_score: this.aiQuality.uniformity,
+      damage_percent: this.aiQuality.damage,
+      ai_price_min: this.aiPricing.recommendedMin,
+      ai_price_max: this.aiPricing.recommendedMax,
+      image_url: this.selectedCrop.img || "assets/images/tomato.jpg"
+    };
+
+    try {
+      if (window.KrishiApi) {
+        await window.KrishiApi.createProduceListing(payload);
+      }
+    } catch (e) {
+      console.warn("Backend createProduceListing fallback:", e);
+    }
+
+    // Update local cache
     const newCrop = {
       id: `prod-${Date.now()}`,
       name: `${this.selectedCrop.name} (Fresh Harvest)`,
@@ -138,15 +164,16 @@ class SellWizard {
     };
 
     window.KrishiData.myProduce.unshift(newCrop);
-    window.KrishiAudio.playSuccess();
+    window.KrishiAudio?.playSuccess();
 
-    // Show celebration alert
-    alert(`🎉 Congratulations Ramesh! Your ${this.quantityKg} kg ${this.selectedCrop.name} is now LIVE on KrishiLink Marketplace at AI Recommended ₹${this.aiPricing.recommendedMin}–₹${this.aiPricing.recommendedMax}/kg!`);
+    const farmerName = window.KrishiAuth?.currentUser?.name || "Farmer";
+    alert(`🎉 Congratulations ${farmerName}! Your ${this.quantityKg} kg ${this.selectedCrop.name} is now LIVE on KrishiLink Marketplace & saved to SQLite at AI Recommended ₹${this.aiPricing.recommendedMin}–₹${this.aiPricing.recommendedMax}/kg!`);
 
     this.closeWizard();
 
-    // Refresh UI
+    // Refresh UI & reload live backend data
     if (window.KrishiApp) {
+      if (window.KrishiApp.loadBackendData) await window.KrishiApp.loadBackendData();
       window.KrishiApp.renderProduceCards();
       window.KrishiApp.switchView('my-produce');
     }

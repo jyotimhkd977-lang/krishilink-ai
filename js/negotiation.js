@@ -36,13 +36,28 @@ class NegotiationEngine {
     window.KrishiAudio.playClick();
   }
 
-  acceptOffer(price, source = 'buyer') {
-    window.KrishiAudio.playSuccess();
+  async acceptOffer(price, source = 'buyer') {
+    window.KrishiAudio?.playSuccess();
     const total = price * this.currentDeal.quantity;
+    const orderId = `KL${Math.floor(10000 + Math.random() * 90000)}`;
     
-    // Add new confirmed order to KrishiData
+    // Attempt backend persistence
+    try {
+      if (window.KrishiApi) {
+        await window.KrishiApi.createOffer({
+          listing_id: "prod-1",
+          offered_price: price,
+          quantity: this.currentDeal.quantity,
+          unit: "kg"
+        });
+      }
+    } catch (e) {
+      console.warn("Backend offer/order sync fallback:", e);
+    }
+
+    // Add confirmed order to local state for immediate feedback
     const newOrder = {
-      id: `KL${Math.floor(10000 + Math.random() * 90000)}`,
+      id: orderId,
       crop: this.currentDeal.product,
       cropImg: "assets/images/tomato.jpg",
       quantityKg: this.currentDeal.quantity,
@@ -70,6 +85,7 @@ class NegotiationEngine {
     this.closeNegotiation();
 
     if (window.KrishiApp) {
+      if (window.KrishiApp.loadBackendData) await window.KrishiApp.loadBackendData();
       window.KrishiApp.renderOrders();
       window.KrishiApp.switchView('orders');
     }

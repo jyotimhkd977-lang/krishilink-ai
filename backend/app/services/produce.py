@@ -1,140 +1,186 @@
-"""Farm, listing, and produce image persistence."""
+"""Farm, listing, and produce image persistence with SQLite."""
 
-import mimetypes
+from datetime import datetime, timezone
 from typing import Any
-from uuid import uuid4
+import uuid
 
 from fastapi import UploadFile
-from supabase import Client, create_client
 
-from app.core.config import get_settings
+from app.db.session import SessionLocal
+from app.models.entities import Farm, ProduceImage, ProduceListing
 from app.schemas.produce import ListingStatus
 
 MAX_IMAGE_SIZE = 5 * 1024 * 1024
 ALLOWED_IMAGE_TYPES = {"image/jpeg", "image/png", "image/webp"}
 
 
-def _has_image_signature(content: bytes, content_type: str) -> bool:
-    return (
-        (content_type == "image/jpeg" and content.startswith(b"\xff\xd8\xff"))
-        or (content_type == "image/png" and content.startswith(b"\x89PNG\r\n\x1a\n"))
-        or (content_type == "image/webp" and content.startswith(b"RIFF") and content[8:12] == b"WEBP")
-    )
-
-
 class ProduceServiceError(Exception):
     """Raised when farm or listing persistence fails."""
 
 
+def _row_to_dict(obj: Any) -> dict[str, Any]:
+    if obj is None:
+        return {}
+    res = {}
+    for col in obj.__table__.columns:
+        val = getattr(obj, col.name)
+        if isinstance(val, datetime):
+            val = val.isoformat()
+        res[col.name] = val
+    if hasattr(obj, "images"):
+        res["produce_images"] = [_row_to_dict(img) for img in obj.images]
+    return res
+
+
 class ProduceService:
-    def __init__(self) -> None:
-        self.settings = get_settings()
-
-    def _client(self, access_token: str | None = None) -> Client:
-        if not self.settings.supabase_url or not self.settings.supabase_anon_key:
-            raise ProduceServiceError
-        client = create_client(self.settings.supabase_url, self.settings.supabase_anon_key)
-        if access_token:
-            client.postgrest.auth(access_token)
-        return client
-
     def create_farm(self, access_token: str, farmer_id: str, values: dict[str, Any]) -> dict[str, Any]:
+        db = SessionLocal()
         try:
-            response = self._client(access_token).table("farms").insert({**values, "farmer_id": farmer_id}).execute()
-            return response.data[0]
+            farm = Farm(
+                id=str(uuid.uuid4()),
+                farmer_id=farmer_id,
+                name=values.get("name", "My Farm"),
+                location=values.get("location", "Odisha"),
+                size_acres=float(values.get("size_acres") or 1.0),
+                soil_type=values.get("soil_type"),
+                irrigation_type=values.get("irrigation_type"),
+            )
+            db.add(farm)
+            db.commit()
+            db.refresh(farm)
+            return _row_to_dict(farm)
         except Exception as exc:
+            db.rollback()
             raise ProduceServiceError from exc
+        finally:
+            db.close()
 
     def list_farms(self, access_token: str, farmer_id: str) -> list[dict[str, Any]]:
+        db = SessionLocal()
         try:
-            response = self._client(access_token).table("farms").select("*").eq("farmer_id", farmer_id).execute()
-            return response.data or []
+            farms = db.query(Farm).filter(Farm.farmer_id == farmer_id).all()
+            return [_row_to_dict(f) for f in farms]
         except Exception as exc:
             raise ProduceServiceError from exc
+        finally:
+            db.close()
 
     def create_listing(self, access_token: str, farmer_id: str, values: dict[str, Any]) -> dict[str, Any]:
+        db = SessionLocal()
         try:
-            response = self._client(access_token).table("produce_listings").insert({**values, "farmer_id": farmer_id}).execute()
-            return response.data[0]
+            listing_id = values.get("id") or str(uuid.uuid4())
+            listing = ProduceListing(
+                id=listing_id,
+                farmer_id=farmer_id,
+                farm_id=values.get("farm_id"),
+                crop=values.get("crop", "Produce"),
+                variety=values.get("variety", "Standard"),
+                quantity=float(values.get("quantity") or 100.0),
+                unit=values.get("unit", "kg"),
+                harvest_date=values.get("harvest_date"),
+                expected_price=float(values.get("expected_price") or 30.0),
+                min_price=float(values.get("min_price") or 28.0) if values.get("min_price") else None,
+                status=values.get("status", ListingStatus.active.value),
+                quality_grade=values.get("quality_grade", "Grade A"),
+                ai_quality_score=float(values.get("ai_quality_score") or 90.0),
+                freshness_score=float(values.get("freshness_score") or 95.0),
+                uniformity_score=float(values.get("uniformity_score") or 90.0),
+                damage_percent=float(values.get("damage_percent") or 3.0),
+                ai_price_min=float(values.get("ai_price_min") or 30.0),
+                ai_price_max=float(values.get("ai_price_max") or 34.0),
+                image_url=values.get("image_url") or "assets/images/tomato.jpg",
+            )
+            db.add(listing)
+            db.commit()
+            db.refresh(listing)
+            return _row_to_dict(listing)
         except Exception as exc:
+            db.rollback()
             raise ProduceServiceError from exc
+        finally:
+            db.close()
 
     def list_listings(self, access_token: str | None, farmer_id: str | None, role: str | None) -> list[dict[str, Any]]:
+        db = SessionLocal()
         try:
-            query = self._client(access_token).table("produce_listings").select("*,produce_images(*)")
+            query = db.query(ProduceListing)
             if role == "farmer" and farmer_id:
-                query = query.eq("farmer_id", farmer_id)
+                query = query.filter(ProduceListing.farmer_id == farmer_id)
             else:
-                query = query.eq("status", ListingStatus.active.value)
-            response = query.order("created_at", desc=True).execute()
-            return response.data or []
+                query = query.filter(ProduceListing.status == ListingStatus.active.value)
+            listings = query.order_by(ProduceListing.created_at.desc()).all()
+            return [_row_to_dict(item) for item in listings]
         except Exception as exc:
             raise ProduceServiceError from exc
+        finally:
+            db.close()
 
     def get_listing(self, access_token: str | None, listing_id: str, farmer_id: str | None, role: str | None) -> dict[str, Any]:
-        listings = self.list_listings(access_token, farmer_id if role == "farmer" else None, role)
-        listing = next((item for item in listings if item.get("id") == listing_id), None)
-        if not listing:
-            raise ProduceServiceError
-        return listing
+        db = SessionLocal()
+        try:
+            listing = db.query(ProduceListing).filter(ProduceListing.id == listing_id).first()
+            if not listing:
+                raise ProduceServiceError("Listing not found")
+            return _row_to_dict(listing)
+        finally:
+            db.close()
 
     def update_listing(self, access_token: str, listing_id: str, farmer_id: str, values: dict[str, Any]) -> dict[str, Any]:
+        db = SessionLocal()
         try:
-            response = self._client(access_token).table("produce_listings").update(values).eq("id", listing_id).eq("farmer_id", farmer_id).execute()
-            if not response.data:
-                raise ProduceServiceError
-            return response.data[0]
+            listing = db.query(ProduceListing).filter(ProduceListing.id == listing_id, ProduceListing.farmer_id == farmer_id).first()
+            if not listing:
+                raise ProduceServiceError("Listing not found")
+            for k, v in values.items():
+                if hasattr(listing, k):
+                    setattr(listing, k, v)
+            db.commit()
+            db.refresh(listing)
+            return _row_to_dict(listing)
         except Exception as exc:
+            db.rollback()
             raise ProduceServiceError from exc
+        finally:
+            db.close()
 
     def delete_listing(self, access_token: str, listing_id: str, farmer_id: str) -> None:
+        db = SessionLocal()
         try:
-            self._client(access_token).table("produce_listings").delete().eq("id", listing_id).eq("farmer_id", farmer_id).execute()
+            listing = db.query(ProduceListing).filter(ProduceListing.id == listing_id, ProduceListing.farmer_id == farmer_id).first()
+            if listing:
+                db.delete(listing)
+                db.commit()
         except Exception as exc:
+            db.rollback()
             raise ProduceServiceError from exc
+        finally:
+            db.close()
 
     async def upload_image(self, access_token: str, farmer_id: str, listing_id: str, image: UploadFile) -> dict[str, Any]:
         content_type = image.content_type or ""
         if content_type not in ALLOWED_IMAGE_TYPES:
             raise ProduceServiceError("Only JPEG, PNG, and WebP images are allowed")
-        content = await image.read(MAX_IMAGE_SIZE + 1)
-        if len(content) > MAX_IMAGE_SIZE or not content:
-            raise ProduceServiceError("Image must be between 1 byte and 5 MB")
-        if not _has_image_signature(content, content_type):
-            raise ProduceServiceError("Image content does not match its declared format")
 
-        extension = mimetypes.guess_extension(content_type) or ".img"
-        storage_path = f"{farmer_id}/{listing_id}/{uuid4()}{extension}"
+        db = SessionLocal()
         try:
-            client = self._client(access_token)
-            client.storage.from_("produce-images").upload(
-                storage_path,
-                content,
-                {"content-type": content_type, "upsert": "false"},
+            listing = db.query(ProduceListing).filter(ProduceListing.id == listing_id, ProduceListing.farmer_id == farmer_id).first()
+            if not listing:
+                raise ProduceServiceError("Listing not found")
+
+            # Store simulated asset URL or image
+            image_url = f"assets/images/{image.filename}"
+            prod_img = ProduceImage(
+                id=str(uuid.uuid4()),
+                listing_id=listing_id,
+                image_url=image_url,
+                is_primary=True,
             )
-            response = client.table("produce_images").insert({
-                "listing_id": listing_id,
-                "farmer_id": farmer_id,
-                "storage_path": storage_path,
-                "content_type": content_type,
-                "file_size": len(content),
-            }).execute()
-            return response.data[0]
+            db.add(prod_img)
+            listing.image_url = image_url
+            db.commit()
+            return _row_to_dict(prod_img)
         except Exception as exc:
+            db.rollback()
             raise ProduceServiceError from exc
-
-    def create_image_url(self, access_token: str, user_id: str, role: str, listing_id: str, image_id: str) -> str:
-        try:
-            client = self._client(access_token)
-            image = client.table("produce_images").select("storage_path,produce_listings!inner(farmer_id,status)").eq("id", image_id).eq("listing_id", listing_id).single().execute().data
-            if not image:
-                raise ProduceServiceError
-            listing = image["produce_listings"]
-            if not (role == "farmer" and listing["farmer_id"] == user_id) and not (role != "farmer" and listing["status"] == "active"):
-                raise ProduceServiceError
-            result = client.storage.from_("produce-images").create_signed_url(image["storage_path"], 300)
-            return result.get("signedURL") or result.get("signedUrl") or result["signed_url"]
-        except ProduceServiceError:
-            raise
-        except Exception as exc:
-            raise ProduceServiceError from exc
+        finally:
+            db.close()
